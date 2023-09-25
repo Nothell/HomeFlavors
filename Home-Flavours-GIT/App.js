@@ -1,28 +1,27 @@
-import React, { useEffect, useState } from 'react';
-import { StatusBar, View } from 'react-native';
-import SplashScreen from './Screens/SplashScreen';
+import { StyleSheet, Text, View, Button, Linking, Image } from 'react-native';
+import HeaderComponent from './Components/HeaderComponent';
+import CategoryCarousel from './Components/CategoryCarousel';
+import PopularItems from './Components/PopularItems';
+import SearchBar from './Components/SearchBar';
 
-const App = () => {
-  const [isAppReady, setAppReady] = useState(false);
 
-  useEffect(() => {
-    setTimeout(() => {
-      setAppReady(true);
-    }, 3000); 
-
-  }, []);
-
+export default function App() {
   return (
-    <View style={{ flex: 1 }}>
-      {isAppReady ? (
-        <>
-          <StatusBar style="auto" />
-        </>
-      ) : (
-        <SplashScreen />
-      )}
+    <View style={styles.container}>
+      <HeaderComponent />
+      <SearchBar/>
+      <Image/>
+      <CategoryCarousel></CategoryCarousel>
+      <PopularItems></PopularItems>
     </View>
   );
-};
+}
 
-export default App;
+
+const styles = StyleSheet.create({
+  container: {
+    flexDirection: "column",
+    flex:1,
+    margin:50
+  },
+});
