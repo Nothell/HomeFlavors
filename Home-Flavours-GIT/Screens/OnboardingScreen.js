@@ -5,12 +5,12 @@ import SignInComponent from '../Components/SignInComponent';
 import SignUpComponent from '../Components/SignUpComponent';
 import EnterpreneurComponent from '../Components/EnterpreneurComponent';
 
-const OnboardingScreen = () => {
+const OnboardingScreen = ({navigation}) => {
   return (
     <View style={styles.container}>
       <Swiper>
         <View>
-          <SignUpComponent />
+          <SignUpComponent navigation={navigation} />
         </View>
         <View>
           <SignInComponent />
@@ -25,9 +25,7 @@ const OnboardingScreen = () => {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    flex: 1
   },
 });
 
