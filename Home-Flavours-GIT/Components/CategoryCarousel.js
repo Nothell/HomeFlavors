@@ -9,6 +9,7 @@ export default function CategoryCarousel() {
     )
 }
 
+
 const styles=StyleSheet.create({
     container: {
         flex:1,
