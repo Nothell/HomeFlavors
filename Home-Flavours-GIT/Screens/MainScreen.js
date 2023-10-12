@@ -2,31 +2,21 @@ import React from 'react';
 import { Text, View, Image, StyleSheet } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import MyAccountScreen from './MyAccountScreen';
-import HomeScreen from "./HomeScreen";
 import MyCartScreen from "./MyCartScreen";
 import CategoriesScreen from "./CategoriesScreen";
 import { Entypo, Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
-import SearchBar from '../Components/SearchBar';
+
 const Tab = createBottomTabNavigator();
 const MainScreen = ({ navigation }) => {
     return (
         <Tab.Navigator
-            initialRouteName="Home"
+            initialRouteName="Browse"
             screenOptions={{
                 activeTintColor: 'blue',
 
             }}
 
         >
-            <Tab.Screen component={HomeScreen} name="Home"
-                options={{
-                    tabBarLabel: 'Home',
-                    tabBarIcon: () => (
-                        <Entypo name="home" size={24} color="black" />
-                    ),
-                
-                }}
-            ></Tab.Screen>
             <Tab.Screen component={CategoriesScreen} name="Browse"
                 options={{
                     tabBarLabel: 'Categories',

@@ -1,12 +1,41 @@
-import React from 'react';
-import { Text,View, Image, StyleSheet } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
 
 const SignInScreen = () => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  const handleSignIn = () => {
+    // Implement your sign-in logic here
+    console.log('Email:', email);
+    console.log('Password:', password);
+    // Add your authentication logic here
+  };
+
   return (
     <View style={styles.container}>
-        <Image style={{paddingBottom:20}} source={require('../assets/logo.jpg')} />
-      <Text style={{fontSize:40,padding:20,color:"#eb5850"}}>Home Flavours</Text>
-      <Text style={{fontSize:15,textAlign:'center',color:"#eb5850"}}>Homemade Delights, Deliver to Your Doorstep</Text>
+      <Text style={styles.title}>Sign In</Text>
+
+      <TextInput
+        style={styles.input}
+        placeholder="Email"
+        onChangeText={setEmail}
+        value={email}
+        keyboardType="email-address"
+        autoCapitalize="none"
+      />
+
+      <TextInput
+        style={styles.input}
+        placeholder="Password"
+        onChangeText={setPassword}
+        value={password}
+        secureTextEntry
+      />
+
+      <TouchableOpacity style={styles.button} onPress={handleSignIn}>
+        <Text style={styles.buttonText}>Sign In</Text>
+      </TouchableOpacity>
     </View>
   );
 };
@@ -14,9 +43,35 @@ const SignInScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: 'white'
+    alignItems: 'center',
+    padding: 16,
+  },
+  title: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    marginBottom: 16,
+  },
+  input: {
+    height: 40,
+    borderColor: 'gray',
+    borderWidth: 1,
+    borderRadius: 8,
+    marginBottom: 16,
+    paddingLeft: 8,
+    width: '100%',
+  },
+  button: {
+    backgroundColor: 'blue',
+    padding: 10,
+    borderRadius: 8,
+    width: '100%',
+    alignItems: 'center',
+  },
+  buttonText: {
+    color: 'white',
+    fontSize: 18,
+    fontWeight: 'bold',
   },
 });
 
