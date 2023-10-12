@@ -9,24 +9,42 @@ import { db } from '../firebaseConfig';
 import { collection, getDocs, query, where, orderBy} from "firebase/firestore";
 export default function CategoryCarousel() {
     const [items, setItems] = useState([]);
-
+    const [popularItems, setPopularItems] = useState([]);
     const navigation = useNavigation();
 
     useEffect(() => {
-
         getCategoriesList();
-        const interval = setInterval(getCategoriesList, 3000);
+        getPopularList();
+        const interval = setInterval(getPopularList, 3000);
         return () => clearInterval(interval);
     }, []);
 
-    const imageData = [
-        { id: 1, imageUrl: 'https://www.foodiesfeed.com/wp-content/uploads/2023/10/mediterranean-chickpea-salad.jpg', text: 'Item 1' },
-        { id: 2, imageUrl: 'https://www.foodiesfeed.com/wp-content/uploads/2023/06/plate-of-noodles-with-shrimps.jpg', text: 'Item 2' },
-        { id: 3, imageUrl: 'https://www.foodiesfeed.com/wp-content/uploads/2023/04/grilled-snapper-fish-with-lemon.jpg', text: 'Item 3' },
-        // Add more items as needed
-    ];
+    const getPopularList = async () => {
+        try {
+            const q = query(collection(db, "popularItems"));
 
-    const getCategoriesList = async () => {
+            const querySnapshot = await getDocs(q);
+
+            let myPopularList = [];
+
+            querySnapshot.forEach((doc) => {
+                // console.log(doc.id, " => ", doc.data());
+
+                myPopularList.push({
+                    id: doc.id,                 
+                    image: doc.data().image,
+                    name: doc.data().name
+                })
+            });
+            console.log(myPopularList)
+            setPopularItems(myPopularList);
+
+        } catch (err) {
+            console.log(err)
+        }
+    }
+
+     const getCategoriesList = async () => {
         try {
             // const userId = auth.currentUser?.uid;
             // if (!userId) {
@@ -65,7 +83,7 @@ export default function CategoryCarousel() {
         <View style={styles.container}>
             <SearchBar />
             <ItemGrid items={items} onItemClick={handleItemClick} />
-            <DishDataGrid data={imageData} onItemClick={handleItemClick} />
+            <DishDataGrid data={popularItems} onItemClick={handleItemClick} />
         </View>
     )
 }
@@ -74,6 +92,6 @@ export default function CategoryCarousel() {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: 'light-blue'
+        backgroundColor: 'white'
     }
 })

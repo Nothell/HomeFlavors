@@ -11,8 +11,8 @@ const DishDataGrid = ({ data, onItemClick }) => {
         data={data}
         renderItem={({ item }) => (
           <View style={styles.gridItem}>
-            <Text style={styles.itemText}>{item.text}</Text>
-            <Image source={{ uri: item.imageUrl }} style={styles.image} />
+            <Text style={styles.itemText}>{item.name}</Text>
+            <Image source={{ uri: item.image }} style={styles.image} />
 
           </View>
         )}

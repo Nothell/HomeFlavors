@@ -36,19 +36,19 @@ export default function App() {
               // headerLeft: null }}
               options={({ navigation }) => ({
                 headerTitle: () => <HeaderComponent />, // You can add your custom header component here
-                headerRight: () => (
-                  // <Ionicons
-                  //   name="ios-options"
-                  //   size={24}
-                  //   color="black"
-                  //   style={{ marginRight: 16 }}
-                  //   onPress={() => {
-                  //     // Handle your header button press
-                  //     console.log('Header button pressed');
-                  //   }}
-                  // />
-                  <AntDesign name="caretright" size={24} color="black" />
-                ),
+                // headerRight: () => (
+                //   // <Ionicons
+                //   //   name="ios-options"
+                //   //   size={24}
+                //   //   color="black"
+                //   //   style={{ marginRight: 16 }}
+                //   //   onPress={() => {
+                //   //     // Handle your header button press
+                //   //     console.log('Header button pressed');
+                //   //   }}
+                //   // />
+                //   <AntDesign name="caretright" size={24} color="black" />
+                // ),
                 headerLeft: () => null, // Remove the back button
               })}
             />
