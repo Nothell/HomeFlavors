@@ -5,7 +5,7 @@ const ItemTile = ({ item, onPress }) => {
     return (
         <TouchableOpacity onPress={() => onPress(item)}>
             <View style={styles.tile}>
-                <Text style={styles.title}>{item.title}</Text>
+                <Text style={styles.title}>{item.name}</Text>
                 {/* Add any other item content here */}
             </View>
         </TouchableOpacity>
