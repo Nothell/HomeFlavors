@@ -15,7 +15,7 @@ const MainScreen = ({ navigation }) => {
                 activeTintColor: 'blue',
 
             }}
-
+           
         >
             <Tab.Screen component={CategoriesScreen} name="Browse"
                 options={{
@@ -23,7 +23,7 @@ const MainScreen = ({ navigation }) => {
                     tabBarIcon: () => (
                         <Ionicons name="search" size={24} color="black" />
                     ),
-           
+                        headerShown:false
                 }}
             ></Tab.Screen>
             <Tab.Screen component={MyCartScreen} name="Cart"

@@ -8,6 +8,8 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import SplashScreen from './Screens/SplashScreen';
 import OnboardingScreen from './Screens/OnboardingScreen';
+import SignUpScreen from './Screens/SignUpScreen';
+import SignInScreen from './Screens/SignInScreen';
 import MainScreen from './Screens/MainScreen';
 
 
@@ -30,6 +32,8 @@ export default function App() {
       <NavigationContainer>
         <Stack.Navigator initialRouteName="Onboarding">
           <Stack.Screen name="Onboarding" component={OnboardingScreen} options={{ headerShown: false }}/>
+          <Stack.Screen name="SignUp" component={SignUpScreen} options={{ headerShown: false }}/>
+          <Stack.Screen name="SignIn" component={SignInScreen} options={{ headerShown: false }}/>
           <Stack.Screen name="Main" component={MainScreen} />
         </Stack.Navigator>
       </NavigationContainer>

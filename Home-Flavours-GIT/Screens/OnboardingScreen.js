@@ -13,7 +13,7 @@ const OnboardingScreen = ({navigation}) => {
           <SignUpComponent navigation={navigation} />
         </View>
         <View>
-          <SignInComponent />
+          <SignInComponent navigation={navigation} />
         </View>
         <View>
           <EnterpreneurComponent />
