@@ -11,7 +11,7 @@ import OnboardingScreen from './Screens/OnboardingScreen';
 import SignUpScreen from './Screens/SignUpScreen';
 import SignInScreen from './Screens/SignInScreen';
 import MainScreen from './Screens/MainScreen';
-
+import { AntDesign } from '@expo/vector-icons';
 
 const Stack = createStackNavigator();
 
@@ -22,7 +22,7 @@ export default function App() {
   useEffect(() => {
     setTimeout(() => {
       setAppReady(true);
-    }, 3000); 
+    }, 3000);
 
   }, []);
 

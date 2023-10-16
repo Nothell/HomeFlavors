@@ -9,7 +9,7 @@ import { useNavigation } from '@react-navigation/native';
 const Stack = createStackNavigator();
 
 const CategoriesScreen = () => {
-const navigation = useNavigation();
+  const navigation = useNavigation();
   const [items, setItems] = useState([
     { id: 1, title: 'All' },
     { id: 2, title: 'Indian' },
@@ -26,7 +26,7 @@ const navigation = useNavigation();
   ]);
 
   const imageData = [
-    { id: 1, imageUrl: 'https://picsum.photos/200', text: 'Item 1' },
+    { id: 1, imageUrl: 'https://www.foodiesfeed.com/wp-content/uploads/2023/10/mediterranean-chickpea-salad.jpg', text: 'Item 1' },
     { id: 2, imageUrl: 'https://picsum.photos/200/300', text: 'Item 2' },
     { id: 3, imageUrl: 'http://via.placeholder.com/120x120&text=image1', text: 'Item 3' },
     // Add more items as needed
@@ -47,6 +47,9 @@ const navigation = useNavigation();
             <DishDataGrid data={imageData} onItemClick={handleItemClick} />
           </View>
         )}
+        options={{
+          headerShown: false, // Remove back button
+        }}
       />
       {/* Create a DetailPage for displaying details */}
       <Stack.Screen name="DishCategoryDetailsScreen" component={DishCategoryDetailsScreen} />

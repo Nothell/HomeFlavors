@@ -5,6 +5,7 @@ import MyAccountScreen from './MyAccountScreen';
 import MyCartScreen from "./MyCartScreen";
 import CategoriesScreen from "./CategoriesScreen";
 import { Entypo, Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
+import CategoryCarousel from '../Components/CategoryCarousel';
 
 const Tab = createBottomTabNavigator();
 const MainScreen = ({ navigation }) => {
@@ -13,11 +14,10 @@ const MainScreen = ({ navigation }) => {
             initialRouteName="Browse"
             screenOptions={{
                 activeTintColor: 'blue',
-
             }}
            
         >
-            <Tab.Screen component={CategoriesScreen} name="Browse"
+            <Tab.Screen component={CategoryCarousel} name="Browse"
                 options={{
                     tabBarLabel: 'Categories',
                     tabBarIcon: () => (
@@ -32,6 +32,7 @@ const MainScreen = ({ navigation }) => {
                     tabBarIcon: () => (
                         <Ionicons name="ios-cart" size={24} color="black" />
                     ),
+                    headerShown: false,
                 }}
             ></Tab.Screen>
             <Tab.Screen component={MyAccountScreen} name="Account"
@@ -40,6 +41,7 @@ const MainScreen = ({ navigation }) => {
                     tabBarIcon: () => (
                         <MaterialCommunityIcons name="account-circle" size={24} color="black" />
                     ),
+                    headerShown: false
                 }}
             ></Tab.Screen>
         </Tab.Navigator>
