@@ -1,41 +1,70 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text,Image, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
+import { signInWithEmailAndPassword } from 'firebase/auth';
+import { auth } from '../Firebase/FirebaseConfig';
+import { Ionicons } from '@expo/vector-icons'; 
+import { Entypo } from '@expo/vector-icons'; 
 
-const SignInScreen = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
 
-  const handleSignIn = () => {
-    // Implement your sign-in logic here
-    console.log('Email:', email);
-    console.log('Password:', password);
-    // Add your authentication logic here
+const SignInScreen = ({navigation}) => {
+  const [email, setEmail] = useState("akshat.sri19@gmail.com");
+  const [password, setPassword] = useState("akshat@123");
+
+  const handleSignIn = async () => {
+   
+      try {
+          const userCredentials = await signInWithEmailAndPassword(auth, email, password)
+          console.log(auth.currentUser)
+          alert(`Login Successful ! ${auth.currentUser.uid}`)
+          navigation.navigate("Main")
+      } catch(err) {
+          console.log(err)
+    }
   };
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Sign In</Text>
+      <View style={{alignItems: 'center'}}>
+        <Image style={{height:100,width:100}} source={require('../assets/logo.jpg')} resizeMode="contain" />
+        <Text style={{color:"#ea584f",fontSize:30}}>HomeFlavours</Text>
+      </View>
+     
+      <View>
+        <View style={{flexDirection:"row",backgroundColor:"#e1e2e3",margin:10}}>
+          <Ionicons name="person" size={30} color="black" style={{borderWidth:1,padding:5}}/>
+          <TextInput
+            style={styles.input}
+            placeholder="Email"
+            onChangeText={setEmail}
+            value={email}
+            keyboardType="email-address"
+            autoCapitalize="none"
+          />
+        </View>
 
-      <TextInput
-        style={styles.input}
-        placeholder="Email"
-        onChangeText={setEmail}
-        value={email}
-        keyboardType="email-address"
-        autoCapitalize="none"
-      />
+        
+        <View style={{flexDirection:"row",backgroundColor:"#e1e2e3",margin:10}}>
+          <Entypo name="lock" size={30} color="black" style={{borderWidth:1,padding:5}}/>
+          <TextInput
+            style={styles.input}
+            placeholder="Password"
+            onChangeText={setPassword}
+            value={password}
+            secureTextEntry
+          />
+        </View>
+      </View>
+      
+      <View style={{flexDirection:"row", justifyContent:"space-evenly",width:"100%"}}>
+          <TouchableOpacity style={styles.button} onPress={handleSignIn}>
+            <Text style={styles.buttonText}>Sign In</Text>
+          </TouchableOpacity>
 
-      <TextInput
-        style={styles.input}
-        placeholder="Password"
-        onChangeText={setPassword}
-        value={password}
-        secureTextEntry
-      />
-
-      <TouchableOpacity style={styles.button} onPress={handleSignIn}>
-        <Text style={styles.buttonText}>Sign In</Text>
-      </TouchableOpacity>
+          <TouchableOpacity style={{backgroundColor:"#036bfc", padding: 10,borderRadius: 8,width: '40%',alignItems: 'center',}} onPress={() => navigation.navigate("Onboarding")}>
+            <Text style={styles.buttonText}>Go Back</Text>
+          </TouchableOpacity>
+      </View>
+      
     </View>
   );
 };
@@ -43,29 +72,22 @@ const SignInScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
+    justifyContent: "space-evenly",
     alignItems: 'center',
     padding: 16,
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    marginBottom: 16,
+    backgroundColor:"white",
   },
   input: {
-    height: 40,
-    borderColor: 'gray',
-    borderWidth: 1,
-    borderRadius: 8,
-    marginBottom: 16,
-    paddingLeft: 8,
-    width: '100%',
+    fontSize:20,
+    borderWidth:1,
+    width:"90%",
+    padding:5
   },
   button: {
-    backgroundColor: 'blue',
+    backgroundColor: '#3aa856',
     padding: 10,
     borderRadius: 8,
-    width: '100%',
+    width: '40%',
     alignItems: 'center',
   },
   buttonText: {
