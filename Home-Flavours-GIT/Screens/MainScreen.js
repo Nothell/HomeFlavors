@@ -15,6 +15,7 @@ const MainScreen = ({ navigation }) => {
             screenOptions={{
                 activeTintColor: 'blue',
             }}
+           
         >
             <Tab.Screen component={CategoryCarousel} name="Browse"
                 options={{
@@ -22,7 +23,7 @@ const MainScreen = ({ navigation }) => {
                     tabBarIcon: () => (
                         <Ionicons name="search" size={24} color="black" />
                     ),
-                    headerShown: false,
+                        headerShown:false
                 }}
             ></Tab.Screen>
             <Tab.Screen component={MyCartScreen} name="Cart"

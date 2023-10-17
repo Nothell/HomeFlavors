@@ -8,7 +8,7 @@ const SignUpComponent = ({navigation}) => {
         <Text style={{color:"red",fontWeight:"bold",fontSize:20,marginTop:30}}># Not Registered ?</Text>
         <Text style={{fontSize:15,marginTop:20}}>Register to enjoy homemade delights</Text>
         <View style={{backgroundColor:"#4588f0", borderRadius:10, marginVertical:50, width:"50%", height:50, justifyContent: 'center'}}>
-          <Button title='SIGN UP' color="white" onPress={() => navigation.navigate('Main')}/>
+          <Button title='SIGN UP' color="white" onPress={() => navigation.navigate('SignUp')}/>
         </View>
         <Image style={{marginBottom:"100%",height:50,width:50}} source={require('../assets/logo.jpg')} resizeMode="contain" />
     </View>
