@@ -1,15 +1,36 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, FlatList, StyleSheet, TouchableOpacity, Image } from 'react-native';
+import {  collection, getDocs, addDoc, query, where } from 'firebase/firestore';
+import { useRoute } from '@react-navigation/native';
+import { db } from '../firebaseConfig';
+
+
 export default function DishCategoryCarousel() {
+    const [products, setProducts] = useState([]);
+    const route = useRoute();
     const { itemDta } = route.params;
     // Sample product data
-    const products = [
-        { id: '1', name: 'Product 1', image: 'https://picsum.photos/200' },
-        { id: '2', name: 'Product 2', image: 'https://picsum.photos/200' },
-        { id: '3', name: 'Product 3', image: 'https://picsum.photos/200' },
-        // Add more products as needed
-    ];
+    useEffect(() => {
+        const fetchProducts = async () => {
+            try {
+                const productCollectionRef = collection(db, 'products'); // Replace 'products' with your Firestore collection name
+                const productSnapshot = await getDocs(productCollectionRef);
+
+                const productsData = [];
+                productSnapshot.forEach((doc) => {
+                    productsData.push({ id: doc.id, ...doc.data() });
+                });
+                console.log("Hereeeeeeeeeeeeeeeeeeeeeee")
+                console.log(productsData)
+                setProducts(productsData);
+            } catch (error) {
+                console.error('Error fetching products from Firestore: ', error);
+            }
+        };
+
+        fetchProducts();
+    }, []);
     const renderItem = ({ item }) => (
         <TouchableOpacity style={styles.productTile}>
             <Image source={{ uri: item.image }} style={styles.productImage} />
