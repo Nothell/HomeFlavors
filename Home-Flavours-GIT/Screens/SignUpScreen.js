@@ -10,13 +10,23 @@ const SignUpScreen = ({navigation}) => {
     const [email, setEmail] = useState('');
     const [age, setAge] = useState('');
     const [password, setPassword] = useState('');
-
+    const [phoneNo, setPhoneNo] = useState('');
+    const [city, setCity] = useState('');
+    const [country, setCountry] = useState('');
+    const [streetName, setStreetName] = useState('');
+    const [pincode, setPinCode] = useState('');
+    
     const [formFieldData, setFormFieldData] = useState(
         {
             name:name,
             email:email,
             password:password,
-            age:age
+            age:age,
+            phoneNo:phoneNo,
+            streetName:streetName,
+            city:city,
+            country:country,
+            pincode:pincode
         }
     )
     const onFormFieldChange = (formField,updatedValue) => {
@@ -34,7 +44,13 @@ const SignUpScreen = ({navigation}) => {
 
             const profileDataToAdd = {
                 name: formFieldData.name,
-                age: formFieldData.age
+                email: formFieldData.email,
+                age: formFieldData.age,
+                phoneNo: formFieldData.phoneNo,
+                streetName: formFieldData.streetName,
+                city: formFieldData.city,
+                pincode: formFieldData.pincode,
+                country: formFieldData.country
             }
             await setDoc(doc(db, "userProfiles", createdUser.user.uid), profileDataToAdd)
             alert("Profile created!!!!")
@@ -78,11 +94,47 @@ const SignUpScreen = ({navigation}) => {
 
                 <TextInput
                     style={styles.input}
+                    placeholder="Phone No"
+                    onChangeText={(updatedText) => { onFormFieldChange("phoneNo",updatedText) }}
+                    value={formFieldData.phoneNo}
+                    keyboardType="numeric"
+                />      
+
+                <TextInput
+                    style={styles.input}
                     placeholder="Password"
                     onChangeText={(updatedText) => { onFormFieldChange("password",updatedText) }}
                     value={formFieldData.password}
                     secureTextEntry
                 />
+
+                <TextInput
+                    style={styles.input}
+                    placeholder="Street Name"
+                    onChangeText={(updatedText) => { onFormFieldChange("streetName",updatedText) }}
+                    value={formFieldData.streetName}
+                />     
+
+                <TextInput
+                    style={styles.input}
+                    placeholder="City"
+                    onChangeText={(updatedText) => { onFormFieldChange("city",updatedText) }}
+                    value={formFieldData.city}
+                />     
+
+                <TextInput
+                    style={styles.input}
+                    placeholder="Pincode"
+                    onChangeText={(updatedText) => { onFormFieldChange("pincode",updatedText) }}
+                    value={formFieldData.pincode}
+                />     
+
+                <TextInput
+                    style={styles.input}
+                    placeholder="Country"
+                    onChangeText={(updatedText) => { onFormFieldChange("country",updatedText) }}
+                    value={formFieldData.country}
+                />     
             </View>
            
             <View style={{flexDirection:"row", justifyContent:"space-evenly",width:"100%"}}>

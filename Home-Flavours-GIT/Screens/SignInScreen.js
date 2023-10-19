@@ -13,9 +13,7 @@ const SignInScreen = ({navigation}) => {
   const handleSignIn = async () => {
    
       try {
-          const userCredentials = await signInWithEmailAndPassword(auth, email, password)
-          console.log(auth.currentUser)
-          alert(`Login Successful ! ${auth.currentUser.uid}`)
+          await signInWithEmailAndPassword(auth, email, password)
           navigation.navigate("Main")
       } catch(err) {
           console.log(err)
