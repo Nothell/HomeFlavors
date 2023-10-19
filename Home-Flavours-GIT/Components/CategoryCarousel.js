@@ -7,6 +7,9 @@ import DishCategoryCarousel from './DishCategoryCarousel';
 import SearchBar from './SearchBar';
 import { db } from '../firebaseConfig';
 import { collection, getDocs, query, where, orderBy} from "firebase/firestore";
+
+import { createStackNavigator } from '@react-navigation/stack';
+
 export default function CategoryCarousel() {
     const [items, setItems] = useState([]);
     const [popularItems, setPopularItems] = useState([]);
@@ -85,6 +88,7 @@ export default function CategoryCarousel() {
             <ItemGrid items={items} onItemClick={handleItemClick} />
             <DishDataGrid data={popularItems} onItemClick={handleItemClick} />
         </View>
+
     )
 }
 
