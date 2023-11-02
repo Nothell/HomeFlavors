@@ -3,12 +3,16 @@ import { View, Text, FlatList, StyleSheet, TouchableOpacity, Image, TextInput } 
 import { collection, getDocs } from 'firebase/firestore';
 import { useRoute } from '@react-navigation/native';
 import { db } from '../firebaseConfig';
+import { useNavigation } from '@react-navigation/native';
+
 
 export default function DishCategoryCarousel() {
     const [products, setProducts] = useState([]);
     const [search, setSearch] = useState('');
     const route = useRoute();
     const { itemDta } = route.params;
+    const navigation = useNavigation();
+    
 
     useEffect(() => {
         const fetchProducts = async () => {
@@ -30,9 +34,13 @@ export default function DishCategoryCarousel() {
     }, []);
 
     const filteredProducts = products.filter(product => product.name.toLowerCase().includes(search.toLowerCase()));
+    const handleItemClick = (item) => {
+        // Alert.alert('Item Clicked', `You clicked on ${item.title}`);
+        navigation.navigate('PDPScreen', { item });
+    };
 
     const renderItem = ({ item }) => (
-        <TouchableOpacity style={styles.productTile}>
+        <TouchableOpacity style={styles.productTile} onPress={() => handleItemClick(item)}>
             <Image source={{ uri: item.image }} style={styles.productImage} />
             <Text style={styles.productName}>{item.name}</Text>
         </TouchableOpacity>

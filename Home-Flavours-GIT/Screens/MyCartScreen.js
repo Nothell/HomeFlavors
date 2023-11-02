@@ -3,15 +3,15 @@ import { View, Text, FlatList, TouchableOpacity, StyleSheet } from 'react-native
 
 const MyCartScreen = () => {
   const [cartItems, setCartItems] = useState([
-    { id: '1', name: 'Burger', quantity: 2, price: 10 },
-    { id: '2', name: 'Pizza', quantity: 1, price: 15 },
-    { id: '3', name: 'Donus', quantity: 1, price: 15 },
-    { id: '4', name: 'Donus', quantity: 1, price: 15 },
-    { id: '5', name: 'Donus', quantity: 1, price: 15 },
-    { id: '6', name: 'Donus', quantity: 1, price: 15 },
-    { id: '7', name: 'Donus', quantity: 1, price: 15 },
-    { id: '8', name: 'Donus', quantity: 1, price: 15 },
-    { id: '9', name: 'Donus', quantity: 1, price: 15 },
+    { id: '1', name: 'Panzanella', quantity: 1, price: 113 },
+    { id: '2', name: 'Balela Salad', quantity: 1, price: 15 },
+    { id: '3', name: 'Horiatiki Salad', quantity: 1, price: 15 },
+    // { id: '4', name: 'Donus', quantity: 1, price: 15 },
+    // { id: '5', name: 'Donus', quantity: 1, price: 15 },
+    // { id: '6', name: 'Donus', quantity: 1, price: 15 },
+    // { id: '7', name: 'Donus', quantity: 1, price: 15 },
+    // { id: '8', name: 'Donus', quantity: 1, price: 15 },
+    // { id: '9', name: 'Donus', quantity: 1, price: 15 },
   ]);
 
   const getTotalPrice = () => {
