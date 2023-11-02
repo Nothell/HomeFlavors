@@ -77,7 +77,7 @@ const SignInScreen = ({navigation}) => {
         <Text style={styles.forgotPasswordText}>Forgot Password ?</Text>
         </TouchableOpacity>
         
-        <View style={{flexDirection:"row", justifyContent:"space-evenly",width:"100%",margin:300}}>
+        <View style={{flexDirection:"row", justifyContent:"space-evenly",width:"100%",margin:100}}>
             <AntDesign name="leftcircleo" size={50} color="#3aa856" onPress={() => navigation.navigate("Onboarding")}/>
             <AntDesign name="rightcircle" size={50} color="#ea584f" onPress={handleSignIn}/>
         </View>
