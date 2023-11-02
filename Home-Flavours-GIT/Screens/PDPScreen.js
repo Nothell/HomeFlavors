@@ -11,12 +11,16 @@ export default function PDPScreen() {
     const item = route.params.item;
     const navigation = useNavigation();
     const [cart, setCart] = useState([]);
+    const [confirmationMessage, setConfirmationMessage] = useState('');
+
 
 
     const handleAddToCart = () => {
          // Add the new item to the cart
-        navigation.navigate('CartScreen', { cartItems: [item] }); // Implement the addToCart function
+        // navigation.navigate('CartScreen', { cartItems: [item] }); // Implement the addToCart function
+
         setCart([...cart, item]);
+        setConfirmationMessage('Item added to cart');
         // You can show a confirmation message or perform any other action here
     };
 
@@ -29,6 +33,9 @@ export default function PDPScreen() {
                 <Text style={styles.productPrice}>Price: ${item.price}</Text>
                 <Button title="Add to Cart" onPress={handleAddToCart} style={styles.addToCartButton} />
             </View>
+            {confirmationMessage ? (
+                <Text style={styles.confirmationMessage}>{confirmationMessage}</Text>
+            ) : null}
         </View>
     );
 }
@@ -66,5 +73,11 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         padding: 12,
         alignItems: 'center',
+    },
+    confirmationMessage: {
+        fontSize: 16,
+        color: 'green',
+        textAlign: 'center',
+        marginTop: 10,
     },
 });
