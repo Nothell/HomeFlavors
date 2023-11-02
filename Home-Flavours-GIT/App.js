@@ -14,6 +14,7 @@ import MainScreen from './Screens/MainScreen';
 import { AntDesign } from '@expo/vector-icons';
 import DishCategoryCarousel from './Components/DishCategoryCarousel';
 
+
 const Stack = createStackNavigator();
 
 export default function App() {
@@ -35,15 +36,15 @@ export default function App() {
           <Stack.Screen name="Onboarding" component={OnboardingScreen} options={{ headerShown: false }}/>
           <Stack.Screen name="SignUp" component={SignUpScreen} options={{ headerShown: false }}/>
           <Stack.Screen name="SignIn" component={SignInScreen} options={{ headerShown: false }}/>
-          <Stack.Screen name="Main" component={MainScreen} />
-          <Stack.Screen name="DishCategoryCarousel" component={DishCategoryCarousel} />
+          <Stack.Screen name="Main" component={MainScreen} options={{ headerShown: false }}/>
+          <Stack.Screen name="Category" component={DishCategoryCarousel} />
         </Stack.Navigator>
       </NavigationContainer>
+      
     ) : (
       <SplashScreen />
     )}
   </View>
-    
   );
 }
 
@@ -51,7 +52,7 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: Platform.OS == "android" ? StatusBar.currentHeight : 10,
+    paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 10,
     justifyContent: 'center'
   },
 });
