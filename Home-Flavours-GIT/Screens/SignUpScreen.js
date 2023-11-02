@@ -1,8 +1,12 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput,Image, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, TextInput,Image, TouchableOpacity, StyleSheet, Alert } from 'react-native';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { auth,db } from '../Firebase/FirebaseConfig';
 import { setDoc, doc } from 'firebase/firestore';
+import { ScrollView } from 'react-native-gesture-handler';
+import { AntDesign } from '@expo/vector-icons';
+import AppBackground from '../Components/AppBackground';
+
 
 const SignUpScreen = ({navigation}) => {
 
@@ -10,6 +14,7 @@ const SignUpScreen = ({navigation}) => {
     const [email, setEmail] = useState('');
     const [age, setAge] = useState('');
     const [password, setPassword] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState('');
     const [phoneNo, setPhoneNo] = useState('');
     const [city, setCity] = useState('');
     const [country, setCountry] = useState('');
@@ -30,14 +35,23 @@ const SignUpScreen = ({navigation}) => {
         }
     )
     const onFormFieldChange = (formField,updatedValue) => {
-
         const updateFields = {...formFieldData}
         updateFields[formField] = updatedValue
         setFormFieldData(updateFields)
 
     }
 
+
     const handleSignUp = async () => {
+        if(formFieldData.name === "" || formFieldData.email === "" || formFieldData.phoneNo === "" || formFieldData.password === "" || confirmPassword === ""){
+            alert("Please enter required information (*).");
+            console.log("Connot move forward")
+            return
+        }
+        if(formFieldData.password !== confirmPassword){
+            alert("Password mismatch !");
+            return
+        }
         try{
             const createdUser = await createUserWithEmailAndPassword(auth, formFieldData.email, formFieldData.password)
             alert(`Id of created user is : ${createdUser.user.email}`)
@@ -61,48 +75,53 @@ const SignUpScreen = ({navigation}) => {
     };
 
     return (
+        <AppBackground>
         <View style={styles.container}>
             <View style={{alignItems: 'center'}}>
-                <Image style={{height:100,width:100}} source={require('../assets/logo.jpg')} resizeMode="contain" />
-                <Text style={{color:"#ea584f",fontSize:30}}>HomeFlavours</Text>
+                <Image style={{marginTop:40,height:100,width:100}} source={require('../assets/logo.png')} resizeMode="contain" />
+                <Text style={{color:"#ea584f",fontSize:30}}>HOME FALVOURS</Text>
+                <Text style={{color:"#ea584f",fontSize:18,fontStyle:"italic"}}>FOOD DELIVERY APP</Text>
             </View>
 
-            <View style={{width:"100%",alignItems:"center"}}>
+            <ScrollView style={{width:"100%"}}>
                 <TextInput
-                    style={styles.input}
-                    placeholder="Name"
+                    style={{fontSize:20,width:"90%",backgroundColor:"#e1e2e3",borderRadius:10,margin:10,padding:10}}
+                    placeholder="Name*"
                     onChangeText={(updatedText) => { onFormFieldChange("name",updatedText) }}
                     value={formFieldData.name}
                 />
 
                 <TextInput
                     style={styles.input}
-                    placeholder="Email"
+                    placeholder="Email*"
                     onChangeText={(updatedText) => { onFormFieldChange("email",updatedText) }}
                     value={formFieldData.email}
                     keyboardType="email-address"
                     autoCapitalize="none"
                 />
 
-                <TextInput
-                    style={styles.input}
-                    placeholder="Age"
-                    onChangeText={(updatedText) => { onFormFieldChange("age",updatedText) }}
-                    value={formFieldData.age}
-                    keyboardType="numeric"
-                />
+                <View style={{flexDirection:"row"}}>
+                    <TextInput
+                        style={{fontSize:20,width:"30%",backgroundColor:"#e1e2e3",borderRadius:10,margin:10,padding:10}}
+                        placeholder="Age"
+                        onChangeText={(updatedText) => { onFormFieldChange("age",updatedText) }}
+                        value={formFieldData.age}
+                        keyboardType="numeric"
+                    />
+
+                    <TextInput
+                        style={{fontSize:20,width:"55%",backgroundColor:"#e1e2e3",borderRadius:10,margin:10,padding:10}}
+                        placeholder="Phone No*"
+                        onChangeText={(updatedText) => { onFormFieldChange("phoneNo",updatedText) }}
+                        value={formFieldData.phoneNo}
+                        keyboardType="numeric"
+                    />     
+                </View>
+                 
 
                 <TextInput
                     style={styles.input}
-                    placeholder="Phone No"
-                    onChangeText={(updatedText) => { onFormFieldChange("phoneNo",updatedText) }}
-                    value={formFieldData.phoneNo}
-                    keyboardType="numeric"
-                />      
-
-                <TextInput
-                    style={styles.input}
-                    placeholder="Password"
+                    placeholder="Password*"
                     onChangeText={(updatedText) => { onFormFieldChange("password",updatedText) }}
                     value={formFieldData.password}
                     secureTextEntry
@@ -110,24 +129,40 @@ const SignUpScreen = ({navigation}) => {
 
                 <TextInput
                     style={styles.input}
+                    placeholder="Confirm Password*"
+                    onChangeText={setConfirmPassword}
+                    value={confirmPassword}
+                    secureTextEntry
+                />
+
+                <View style={{flexDirection:"row",padding:10}}>
+                    <Text style={{color:"#ea584f",fontSize:20,fontStyle:"italic",fontWeight:"bold"}}>We will find to you at</Text>
+                    <AntDesign name="arrowright" size={24} color="#ea584f" style={{marginLeft:10}} />
+                </View>
+                
+                <TextInput
+                    style={styles.input}
                     placeholder="Street Name"
                     onChangeText={(updatedText) => { onFormFieldChange("streetName",updatedText) }}
                     value={formFieldData.streetName}
                 />     
 
-                <TextInput
-                    style={styles.input}
-                    placeholder="City"
-                    onChangeText={(updatedText) => { onFormFieldChange("city",updatedText) }}
-                    value={formFieldData.city}
-                />     
+                <View style={{flexDirection:"row"}}>
+                    <TextInput
+                        style={{fontSize:20,width:"40%",backgroundColor:"#e1e2e3",borderRadius:10,margin:10,padding:10}}
+                        placeholder="City"
+                        onChangeText={(updatedText) => { onFormFieldChange("city",updatedText) }}
+                        value={formFieldData.city}
+                    />     
 
-                <TextInput
-                    style={styles.input}
-                    placeholder="Pincode"
-                    onChangeText={(updatedText) => { onFormFieldChange("pincode",updatedText) }}
-                    value={formFieldData.pincode}
-                />     
+                    <TextInput
+                        style={{fontSize:20,width:"45%",backgroundColor:"#e1e2e3",borderRadius:10,margin:10,padding:10}}
+                        placeholder="Pincode"
+                        onChangeText={(updatedText) => { onFormFieldChange("pincode",updatedText) }}
+                        value={formFieldData.pincode}
+                    />     
+                </View>
+                
 
                 <TextInput
                     style={styles.input}
@@ -135,18 +170,15 @@ const SignUpScreen = ({navigation}) => {
                     onChangeText={(updatedText) => { onFormFieldChange("country",updatedText) }}
                     value={formFieldData.country}
                 />     
-            </View>
+            </ScrollView>
            
-            <View style={{flexDirection:"row", justifyContent:"space-evenly",width:"100%"}}>
-                <TouchableOpacity style={styles.button} onPress={handleSignUp}>
-                    <Text style={styles.buttonText}>Sign Up</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={{backgroundColor:"#036bfc", padding: 10,borderRadius: 8,width: '40%',alignItems: 'center'}} onPress={() => navigation.navigate("Onboarding")}>
-                    <Text style={styles.buttonText}>Go Back</Text>
-                </TouchableOpacity>
+            <View style={{flexDirection:"row", justifyContent:"space-evenly",width:"100%",marginBottom:50}}>
+                <AntDesign name="leftcircleo" size={50} color="#4588f0" onPress={() => navigation.navigate("Onboarding")}/>
+                <AntDesign name="rightcircle" size={50} color="#ea584f" onPress={handleSignUp}/>
             </View>
             
         </View>
+        </AppBackground>
     );
 };
 
@@ -156,14 +188,14 @@ const styles = StyleSheet.create({
         justifyContent: "space-evenly",
         alignItems: 'center',
         padding: 16,
-        backgroundColor:"white",
     },
     input: {
         fontSize:20,
-        borderWidth:1,
-        padding:5,
+        padding:10,
         width:"90%",
-        margin:10
+        margin:10,
+        borderRadius:10,
+        backgroundColor:"#e1e2e3"
     },
     button: {
         backgroundColor: 'green',

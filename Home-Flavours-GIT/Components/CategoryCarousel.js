@@ -80,7 +80,7 @@ export default function CategoryCarousel() {
     }
     const handleItemClick = (item) => {
         // Alert.alert('Item Clicked', `You clicked on ${item.title}`);
-        navigation.navigate('DishCategoryCarousel', { item });
+        navigation.navigate('Category', { item });
     };
     return (
         <View style={styles.container}>

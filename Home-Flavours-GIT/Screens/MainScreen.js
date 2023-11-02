@@ -6,9 +6,9 @@ import MyCartScreen from "./MyCartScreen";
 import { Entypo, Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import CategoryCarousel from '../Components/CategoryCarousel';
 import HeaderComponent from '../Components/HeaderComponent';
-import Icon from 'react-native-vector-icons/FontAwesome';
-import { auth } from '../Firebase/FirebaseConfig';
-import { signOut } from 'firebase/auth'
+import { useState,useEffect } from 'react';
+import { db,auth } from '../Firebase/FirebaseConfig';
+import { collection, getDocs, where, query } from 'firebase/firestore';
 
 
 const Tab = createBottomTabNavigator();
@@ -16,18 +16,37 @@ const Tab = createBottomTabNavigator();
 
 const MainScreen = ({navigation}) => {
 
-    const handleLogout = async () => {
-        try{
-            if(auth.currentUser === null){
-                alert("Logout Pressed: There is no user to logout !")
-            }else{
-                await signOut(auth)
-                navigation.navigate('SignIn')
-            }
-        }catch(err){
-            console.log(err)
-        }  
-      };
+    const [userName, setUserName] = useState("")
+
+    const retrieveCurrUserData = async () => {
+        try {
+            const currentUser = auth.currentUser;
+            const userEmail = currentUser.email;
+            const q = query(collection(db, 'userProfiles'), where('email', '==', userEmail));
+            const querySnapshot = await getDocs(q);
+    
+            const resultsFromFirestore = [];
+            querySnapshot.forEach((doc) => {
+              const itemToAdd = {
+                id: doc.id,
+                ...doc.data(),
+              };
+              resultsFromFirestore.push(itemToAdd);
+            });
+    
+            const user = resultsFromFirestore[0];
+            setUserName(user.name);
+        } catch (err) {
+          console.log(err);
+        }
+      }
+
+    
+
+      useEffect(() => {
+        retrieveCurrUserData();
+      }, []);
+
 
     return (
         <Tab.Navigator
@@ -39,11 +58,11 @@ const MainScreen = ({navigation}) => {
         >
             <Tab.Screen component={CategoryCarousel} name="Browse"
                 options={{
-                    tabBarLabel: 'Categories',
                     tabBarIcon: () => (
                         <Ionicons name="search" size={24} color="black" />
                     ),
-                    headerTitle: () => <HeaderComponent />
+                    headerTitle: () => <HeaderComponent />,
+                    headerTitleAlign: 'left'
                 }}
             ></Tab.Screen>
             <Tab.Screen component={MyCartScreen} name="Cart"
@@ -52,7 +71,8 @@ const MainScreen = ({navigation}) => {
                     tabBarIcon: () => (
                         <Ionicons name="ios-cart" size={24} color="black" />
                     ),
-                    headerTitle: () => <HeaderComponent />
+                    headerTitle: () => <HeaderComponent />,
+                    headerTitleAlign: 'left'
                 }}
             ></Tab.Screen>
             <Tab.Screen component={MyAccountScreen} name="Account"
@@ -61,10 +81,11 @@ const MainScreen = ({navigation}) => {
                     tabBarIcon: () => (
                         <MaterialCommunityIcons name="account-circle" size={24} color="black" />
                     ),
-                    headerTitle: () => <HeaderComponent />,
-                    headerRight:() => (
-                        <Icon name="sign-out" size={30}  onPress={handleLogout} />
-                    )
+                    headerTitle: () => <Text style={{fontSize:30,fontStyle:"italic"}}>Welcome {userName}</Text>,
+                    headerTitleAlign: 'left',
+                    // headerRight:() => (
+                       
+                    // )
                 }}
             ></Tab.Screen>
         </Tab.Navigator>

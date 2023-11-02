@@ -4,26 +4,23 @@ import { StyleSheet, View, Text, Image } from 'react-native';
 export default function HeaderComponent() {
     return (
         <View style={styles.container}>
-            <View style={styles.imageContainer}>
                 <Image
-                    source={require('../assets/logo.jpg')} // Replace with the actual path to your image
-                    style={{ width: 200, height: 60 }}
+                    source={require('../assets/logo.jpg')}
+                    style={{ height: 50,width:50, marginBottom:10}}
                     resizeMode="contain"
                 />
-                <Text>Good Morning! John Soans</Text>
-            </View>
+                <Text style={{color:"#ea584f",fontSize:30,marginBottom:5,marginLeft:5 }}>HomeFlavours</Text>
         </View>
     );
 }
 
 const styles = StyleSheet.create({
     container: {
-        flexDirection: 'row',
+        flex:1,
         alignItems: 'center',
-        backgroundColor: 'white',
-    },
-    imageContainer: {
-        flex: 1,
-        alignItems: 'center',
+        backgroundColor:"white",
+        flexDirection:"row",
+     
+
     }
 });
