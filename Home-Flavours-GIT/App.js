@@ -13,6 +13,8 @@ import SignInScreen from './Screens/SignInScreen';
 import MainScreen from './Screens/MainScreen';
 import { AntDesign } from '@expo/vector-icons';
 import DishCategoryCarousel from './Components/DishCategoryCarousel';
+import PDPScreen from './Screens/PDPScreen';
+import CartScreen from './Screens/CartScreen';
 
 
 const Stack = createStackNavigator();
@@ -38,6 +40,8 @@ export default function App() {
           <Stack.Screen name="SignIn" component={SignInScreen} options={{ headerShown: false }}/>
           <Stack.Screen name="Main" component={MainScreen} options={{ headerShown: false }}/>
           <Stack.Screen name="Category" component={DishCategoryCarousel} />
+          <Stack.Screen name="PDPScreen" component={PDPScreen} />
+        <Stack.Screen name="CartScreen" component={CartScreen} />
         </Stack.Navigator>
       </NavigationContainer>
       
