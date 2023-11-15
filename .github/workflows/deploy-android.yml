@@ -1,19 +1,17 @@
-name: Deploy-Android-TEST 
+name: Deploy-Android-TEST
 
 on:
   workflow_dispatch:
     branches: [Development]
-    # can add push and pull_request here 
   push:
     tags:
       - 'v[0-9]+.[0-9]+.[0-9]+([0-9]+)'
-    
+
 env:
-  APP_CENTER_TOKEN: ${{ secrets.APP_CENTER_TOKEN_MYAPP_ANDROID_TEST  }}  
-  APP_NAME: ${{ 'MyApp-Android/ENV_TEST'  }}  
-  TESTING_GROUP: ${{  'ENV_TEST'  }} 
-  UPLOAD_FILE: ${{ 'android/app/build/outputs/apk/app-release.apk'  }}  
-  
+  APP_CENTER_TOKEN: ${{ secrets.APP_CENTER_TOKEN_MYAPP_ANDROID_TEST }}
+  APP_NAME: ${{ 'MyApp-Android/ENV_TEST' }}
+  TESTING_GROUP: ${{ 'ENV_TEST' }}
+  UPLOAD_FILE: ${{ 'android/app/build/outputs/apk/app-release.apk' }}
 
 jobs:
   build:
@@ -29,6 +27,11 @@ jobs:
         with:
           java-version: 1.8
 
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '14'
+
       - name: Install dependencies
         run: npm install
 
@@ -36,6 +39,7 @@ jobs:
         run: |
           cd Home-Flavours-GIT
           npm install
+          npm run cd android && ./gradlew assembleRelease
 
       - name: Upload to App Center
         uses: wzieba/AppCenter-Github-Action@v1
