@@ -33,7 +33,9 @@ jobs:
           node-version: '14'
 
       - name: Install dependencies
-        run: npm install
+        run: |
+         cd Home-Flavours-GIT
+         npm install
 
       - name: Build android
         run: |
