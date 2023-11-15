@@ -33,7 +33,9 @@ jobs:
         run: npm install
 
       - name: Build android
-        run: npm run cd android && ./gradlew assembleRelease
+        run: |
+          cd Home-Flavours-GIT && npm install
+          cd Home-Flavours-GIT/android && ./gradlew assembleRelease
 
       - name: Upload to App Center
         uses: wzieba/AppCenter-Github-Action@v1
