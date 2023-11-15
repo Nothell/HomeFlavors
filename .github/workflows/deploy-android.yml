@@ -41,8 +41,8 @@ jobs:
         run: |
           cd Home-Flavours-GIT
           npm install
+          sudo apt-get install -y gradle  # Install Gradle
           ./gradlew assembleRelease
-
       - name: Upload to App Center
         uses: wzieba/AppCenter-Github-Action@v1
         with:
