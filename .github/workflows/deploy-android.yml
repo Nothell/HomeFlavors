@@ -1,6 +1,9 @@
 name: Deploy-Android-TEST 
 
 on:
+  workflow_dispatch:
+    branches: [Development]
+    # can add push and pull_request here 
   push:
     tags:
       - 'v[0-9]+.[0-9]+.[0-9]+([0-9]+)'
