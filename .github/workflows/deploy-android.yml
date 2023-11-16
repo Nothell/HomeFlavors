@@ -18,11 +18,19 @@ jobs:
     name: Install and build
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
         with:
-          node-version: 18.x
-          cache: npm
+          node-version: '14'
+          
+      - name: Install Expo CLI
+        run: |
+          cd Home-Flavours-GIT
+          npm install -g expo-cli
+          npm install -g eas-cli
       - name: Setup Expo and EAS
         uses: expo/expo-github-action@v8
         with:
