@@ -41,8 +41,7 @@ jobs:
       - name: Log in to EAS
         run: |
           cd Home-Flavours-GIT
-          echo "${{ secrets.APP_CENTER_TOKEN_MYAPP_EMAIL }}" | eas login --stdin
-          echo "${{ secrets.APP_CENTER_TOKEN_MYAPP_PSWD }}" | eas login --stdin
+          eas login -u ${{ secrets.APP_CENTER_TOKEN_MYAPP_EMAIL }} -p ${{ secrets.APP_CENTER_TOKEN_MYAPP_PSWD }}
 
       - name: Build Android Release APK
         run: |
