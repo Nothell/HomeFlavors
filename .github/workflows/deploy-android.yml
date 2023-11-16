@@ -31,7 +31,7 @@ jobs:
       - name: Install dependencies
         run: |
           cd Home-Flavours-GIT
-          npm ci
+          npm install
       - name: Build on EAS
         run: |
           cd Home-Flavours-GIT
