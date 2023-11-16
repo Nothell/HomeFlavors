@@ -42,7 +42,7 @@ jobs:
         run: |
           cd Home-Flavours-GIT
           expo logout
-          expo login --non-interactive --username ${{ secrets.APP_CENTER_TOKEN_MYAPP_EMAIL }} --password ${{ secrets.APP_CENTER_TOKEN_MYAPP_PSWD }}
+          expo login --non-interactive --token  ${{ secrets.EXPO_CLI_TOKEN }}
           eas login
 
       - name: Build Android Release APK
