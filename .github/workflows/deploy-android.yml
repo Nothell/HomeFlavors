@@ -43,7 +43,7 @@ jobs:
       - name: Build on EAS
         run: |
           cd Home-Flavours-GIT
-          eas build  --profile development --platform android --non-interactive
+          eas build -p android --profile preview
          
       - name: Upload to App Center
         uses: wzieba/AppCenter-Github-Action@v1
