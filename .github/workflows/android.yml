@@ -1,0 +1,56 @@
+name: "Build Android app G1"
+
+on:
+  workflow_dispatch:
+    branches: [dev]
+    # can add push and pull_request here 
+    
+env:
+  APP_CENTER_TOKEN: ${{ secrets.APP_CENTER_TOKEN_MYAPP_ANDROID_TEST  }}  
+  APP_NAME: ${{ 'G1-TableTime/TableTime'  }}  
+  UPLOAD_FILE: ${{ './android/app/build/outputs/apk/debug/app-debug.apk'  }}  
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Install Java
+        uses: actions/setup-java@v3
+        with:
+          java-version: "12"
+          distribution: "adopt"
+          cache: "gradle"
+
+      - name: Setup Node  
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16'
+
+      - name: Run Yarn Install
+        run: |
+             cd ./packages/app-mobile/
+             npm i -g corepack
+             yarn install             
+      - name: Build application
+        run: |
+             cd ./android
+             chmod +x gradlew
+             ./gradlew assembleDebug             
+      - name: Upload application
+        uses: actions/upload-artifact@v2
+        with:
+          name: app
+          path: ./android/app/build/outputs/apk/debug/app-debug.apk
+          retention-days: 3
+
+      - name: Upload to App Center
+        uses: wzieba/AppCenter-Github-Action@v1
+        with:
+          appName: ${{ env.APP_NAME }}
+          token: ${{ env.APP_CENTER_TOKEN }}
+          group: Developer
+          file: ${{ env.UPLOAD_FILE }}
+          debug: true
