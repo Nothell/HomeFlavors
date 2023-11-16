@@ -8,7 +8,7 @@ on:
       - 'v[0-9]+.[0-9]+.[0-9]+([0-9]+)'
 
 env:
-  APP_CENTER_TOKEN: ${{ secrets.APP_CENTER_TOKEN_MYAPP_ANDROID_TEST }}
+  APP_CENTER_TOKEN: ${{ secrets.APP_CENTER_TOKEN_MYAPP_ANDROID }}
   APP_NAME: ${{ 'MyApp-Android/ENV_TEST' }}
   TESTING_GROUP: ${{ 'ENV_TEST' }}
   UPLOAD_FILE: ${{ 'android/app/build/outputs/apk/app-release.apk' }}
@@ -37,6 +37,12 @@ jobs:
         run: |
           cd Home-Flavours-GIT
           npm install
+          
+      - name: Log in to EAS
+        run: |
+          cd Home-Flavours-GIT
+          echo "${{ secrets.APP_CENTER_TOKEN_MYAPP_EMAIL }}" | eas login --stdin
+          echo "${{ secrets.APP_CENTER_TOKEN_MYAPP_PSWD }}" | eas login --stdin
 
       - name: Build Android Release APK
         run: |
