@@ -29,6 +29,7 @@ jobs:
           
       - name: Install Expo CLI
         run: |
+          cd Home-Flavours-GIT
           npm install -g expo-cli
 
       - name: Install Dependencies
