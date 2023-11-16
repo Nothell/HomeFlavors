@@ -26,11 +26,15 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: '14'
+          
+      - name: Install Expo CLI
+        run: |
+          npm install -g expo-cli
 
       - name: Install Dependencies
         run: |
           cd Home-Flavours-GIT
-          npm install
+          npm ci
 
       - name: Build Android Release APK
         run: |
