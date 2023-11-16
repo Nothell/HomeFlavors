@@ -41,7 +41,9 @@ jobs:
       - name: Log in to EAS
         run: |
           cd Home-Flavours-GIT
-          eas login -u ${{ secrets.APP_CENTER_TOKEN_MYAPP_EMAIL }} -p ${{ secrets.APP_CENTER_TOKEN_MYAPP_PSWD }}
+          expo logout
+          expo login --non-interactive --username ${{ secrets.APP_CENTER_TOKEN_MYAPP_EMAIL }} --password ${{ secrets.APP_CENTER_TOKEN_MYAPP_PSWD }}
+          eas login
 
       - name: Build Android Release APK
         run: |
