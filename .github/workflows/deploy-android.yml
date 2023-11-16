@@ -29,7 +29,9 @@ jobs:
           eas-version: latest
           token: ${{ secrets.EXPO_CLI_TOKEN }}
       - name: Install dependencies
-        run: npm ci
+        run: |
+          cd Home-Flavours-GIT
+          npm ci
       - name: Build on EAS
         run: |
           cd Home-Flavours-GIT
