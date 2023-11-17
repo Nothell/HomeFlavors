@@ -48,12 +48,16 @@ jobs:
               path: ./android/app/build/outputs/apk/debug/app-debug.apk
               retention-days: 3
           
+          - name: Download App Center CLI install script
+            run: |
+              curl -sL -o install_appcenter.sh https://install.appcenter.ms/installScript
+              chmod +x install_appcenter.sh
+          
           - name: Install App Center CLI
             run: |
-                curl -sL https://install.appcenter.ms/installScript | bash
-                source ~/.bash_profile
-                appcenter --version
-
+              ./install_appcenter.sh
+              source ~/.bash_profile
+              appcenter --version
 
           - name: Log in to App Center
             run: appcenter login --token ${{ secrets.APP_CENTER_TOKEN }}
