@@ -51,8 +51,8 @@ jobs:
           - name: Upload to App Center
             uses: wzieba/AppCenter-Github-Action@v1
             with:
-              appName: ${{ env.APP_NAME }}
-              token: ${{ env.APP_CENTER_TOKEN }}
+              appName: MyApp-Android/ENV_TEST
+              token: ${{ secrets.APP_CENTER_TOKEN }}
               group: Developer
-              file: ${{ env.UPLOAD_FILE }}
+              file: path/to/your/apk/file/app-debug.apk
               debug: true
