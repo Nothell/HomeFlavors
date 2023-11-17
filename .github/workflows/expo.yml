@@ -54,5 +54,5 @@ jobs:
               appName: MyApp-Android/ENV_TEST
               token: ${{ secrets.APP_CENTER_TOKEN }}
               group: Developer
-              file: path/to/your/apk/file/app-debug.apk
+              file: ./android/app/build/outputs/apk/debug/app-debug.apk
               debug: true
