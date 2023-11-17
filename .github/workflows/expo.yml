@@ -33,8 +33,7 @@ jobs:
           - name: Run Yarn Install
             run: |
                  cd Home-Flavours-GIT
-                 npm i -g corepack
-                 yarn install             
+                 npm install yarn         
           - name: Build application
             run: |
                  cd Home-Flavours-GIT
