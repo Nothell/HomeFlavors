@@ -37,7 +37,6 @@ jobs:
           - name: Build application
             run: |
                  cd Home-Flavours-GIT
-                 cd ./android
                  chmod +x gradlew
                  ./gradlew assembleDebug             
           - name: Upload application
