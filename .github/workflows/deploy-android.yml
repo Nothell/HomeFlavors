@@ -15,42 +15,47 @@ env:
 
 jobs:
   build:
-    name: Install and build
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v2
+      - name: Checkout repository
+        uses: actions/checkout@v3
 
-      - name: Setup Node.js
+      - name: Install Java
+        uses: actions/setup-java@v3
+        with:
+          java-version: "12"
+          distribution: "adopt"
+          cache: "gradle"
+
+      - name: Setup Node  
         uses: actions/setup-node@v3
         with:
-          node-version: '14'
-          
-      - name: Install Expo CLI
+          node-version: '16'
+
+      - name: Run Yarn Install
         run: |
-          cd Home-Flavours-GIT
-          npm install -g expo-cli
-          npm install -g eas-cli
-      - name: Setup Expo and EAS
-        uses: expo/expo-github-action@v8
+             cd Home-Flavours-GIT
+             cd ./packages/app-mobile/
+             npm i -g corepack
+             yarn install             
+      - name: Build application
+        run: |
+             cd Home-Flavours-GIT
+             cd ./android
+             chmod +x gradlew
+             ./gradlew assembleDebug             
+      - name: Upload application
+        uses: actions/upload-artifact@v2
         with:
-          eas-version: latest
-          token: ${{ secrets.EXPO_CLI_TOKEN }}
-      - name: Install dependencies
-        run: |
-          cd Home-Flavours-GIT
-          npm install
-      - name: Build on EAS
-        run: |
-          cd Home-Flavours-GIT
-          eas build -p android --profile preview
-         
+          name: app
+          path: ./android/app/build/outputs/apk/debug/app-debug.apk
+          retention-days: 3
+
       - name: Upload to App Center
         uses: wzieba/AppCenter-Github-Action@v1
         with:
           appName: ${{ env.APP_NAME }}
           token: ${{ env.APP_CENTER_TOKEN }}
-          group: ${{ env.TESTING_GROUP }}
+          group: Developer
           file: ${{ env.UPLOAD_FILE }}
-          notifyTesters: true
-          debug: false
+          debug: true
