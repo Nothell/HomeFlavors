@@ -34,11 +34,13 @@ jobs:
             run: |
                  cd Home-Flavours-GIT
                  npm install yarn         
-          - name: Build application
-            run: |
-                 cd Home-Flavours-GIT
-                 chmod +x gradlew
-                 ./gradlew assembleDebug             
+          - name: Build Android app
+            uses: expo/expo-github-action@v5
+            with:
+              expo-version: '4.x'  # Adjust the version as needed
+              expo-cli-token: ${{ secrets.EXPO_CLI_TOKEN }}
+              node-version: '14'  # Match with the Node.js version used above
+              working-directory: /Home-Flavours-GIT/
           - name: Upload application
             uses: actions/upload-artifact@v2
             with:
