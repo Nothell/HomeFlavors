@@ -1,0 +1,59 @@
+name: Deploy-AndExpo
+
+on:
+  workflow_dispatch:
+    branches: [Development]
+  push:
+    tags:
+      - 'v[0-9]+.[0-9]+.[0-9]+([0-9]+)'
+
+env:
+  APP_CENTER_TOKEN: ${{ secrets.APP_CENTER_TOKEN_MYAPP_ANDROID }}
+  APP_NAME: ${{ 'MyApp-Android/ENV_TEST' }}
+  TESTING_GROUP: ${{ 'ENV_TEST' }}
+  UPLOAD_FILE: ${{ 'android/app/build/outputs/apk/app-release.apk' }}
+  
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+          - uses: actions/checkout@v2
+          - uses: actions/setup-node@v1
+            with:
+              node-version: 12.x
+          - uses: actions/setup-java@v1.4.3
+            with:
+              java-version: '9.0.4' # The JDK version to make available on the path.
+              java-package: jdk # (jre, jdk, or jdk+fx) - defaults to jdk
+              architecture: x64 # (x64 or x86) - defaults to x64
+          - uses: expo/expo-github-action@v5
+            with:
+              expo-version: 3.x
+              expo-cli-token: ${{ secrets.EXPO_CLI_TOKEN }}
+          - name: Run Yarn Install
+            run: |
+                 cd Home-Flavours-GIT
+                 cd ./packages/app-mobile/
+                 npm i -g corepack
+                 yarn install             
+          - name: Build application
+            run: |
+                 cd Home-Flavours-GIT
+                 cd ./android
+                 chmod +x gradlew
+                 ./gradlew assembleDebug             
+          - name: Upload application
+            uses: actions/upload-artifact@v2
+            with:
+              name: app
+              path: ./android/app/build/outputs/apk/debug/app-debug.apk
+              retention-days: 3
+
+          - name: Upload to App Center
+            uses: wzieba/AppCenter-Github-Action@v1
+            with:
+              appName: ${{ env.APP_NAME }}
+              token: ${{ env.APP_CENTER_TOKEN }}
+              group: Developer
+              file: ${{ env.UPLOAD_FILE }}
+              debug: true
