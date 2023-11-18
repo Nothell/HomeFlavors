@@ -29,7 +29,7 @@ jobs:
           - uses: expo/expo-github-action@v5
             with:
               expo-version: 3.x
-              expo-cli-token: ${{ secrets.EXPO_CLI_TOKEN }}
+              expo-token: ${{ secrets.EXPO_CLI_TOKEN }}
           - name: Run Yarn Install
             run: |
                  cd Home-Flavours-GIT
@@ -41,16 +41,10 @@ jobs:
               expo-token': ${{ secrets.EXPO_CLI_TOKEN }}
               node-version: '14'  # Match with the Node.js version used above
               working-directory: /Home-Flavours-GIT/
-          - name: Upload application
-            uses: actions/upload-artifact@v2
-            with:
-              name: app
-              path: ./android/app/build/outputs/apk/debug/app-debug.apk
-              retention-days: 3
           
   deploy:
     runs-on: ubuntu-latest
-    #needs: build
+    needs: build
     steps:
     - name: Upload build to App Center
       uses: actions/upload-artifact@v2
@@ -65,4 +59,4 @@ jobs:
       run: appcenter login --token ${{ secrets.APP_CENTER_TOKEN }} --disable-telemetry
 
     - name: Distribute build to App Center
-      run: appcenter distribute release --app ${{ secrets.APP_NAME }} --group Developer --file p${{ env.UPLOAD_FILE }} # Adjust this based on your project's build file path
+      run: appcenter distribute release --app ${{ secrets.APP_NAME }} --group Developer --file ${{ env.UPLOAD_FILE }} # Adjust this based on your project's build file path
