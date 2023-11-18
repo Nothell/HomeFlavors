@@ -12,6 +12,9 @@ env:
   APP_NAME: 'MyApp-Android/ENV_TEST'
   TESTING_GROUP: 'ENV_TEST'
   UPLOAD_FILE: '.android/app/build/outputs/apk/debug/app-debug.apk'
+  JAVA_HOME_9.0.4_x64: /opt/hostedtoolcache/jdk/9.0.4/x64
+  JAVA_HOME: /opt/hostedtoolcache/jdk/9.0.4/x64
+  JAVA_HOME_9_0_4_X64: /opt/hostedtoolcache/jdk/9.0.4/x64
   
 jobs:
   build:
@@ -49,7 +52,9 @@ jobs:
       - name: Build Android app
         run: |
           cd Home-Flavours-GIT
+          yarn add expo
           expo build:android
+
 
       - name: Save APK artifact
         uses: actions/upload-artifact@v2
