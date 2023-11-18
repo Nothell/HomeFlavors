@@ -42,8 +42,7 @@ jobs:
 
       - name: Log in to Expo
         run: expo login --non-interactive --username haril.boy615@gmail.com
-        env:
-          EXPO_TOKEN: ${{ secrets.EXPO_CLI_TOKEN }}
+
 
       - name: Build Android app
         run: expo build:android
