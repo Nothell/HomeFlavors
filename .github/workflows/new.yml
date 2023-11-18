@@ -48,7 +48,9 @@ jobs:
         env:
           EXPO_CLI_PASSWORD: 12345678@
 
-
+      - name: Update Expo SDK
+        run: expo upgrade
+        
       - name: Install eas-cli
         run: npm install -g eas-cli
       
