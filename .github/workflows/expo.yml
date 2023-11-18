@@ -38,7 +38,7 @@ jobs:
             uses: expo/expo-github-action@v5
             with:
               expo-version: '4.x'  # Adjust the version as needed
-              expo-cli-token: ${{ secrets.EXPO_CLI_TOKEN }}
+              expo-token': ${{ secrets.EXPO_CLI_TOKEN }}
               node-version: '14'  # Match with the Node.js version used above
               working-directory: /Home-Flavours-GIT/
           - name: Upload application
