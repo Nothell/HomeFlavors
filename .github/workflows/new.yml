@@ -37,16 +37,20 @@ jobs:
           npm install -g yarn
           yarn install
           
-      - name: Build Android app
-        uses: expo/expo-github-action@v5
-        with:
-          expo-version: '4.x'  # Adjust the version as needed
-          expo-token: ${{ secrets.EXPO_CLI_TOKEN }}
-          node-version: '14'  # Match with the Node.js version used above
-          working-directory: Home-Flavours-GIT  # Adjust this based on your project's directory structure
+      - name: Install Expo CLI
+        run: npm install -g expo-cli
 
-      - name: List APK files
-        run: ls -R Home-Flavours-GIT/android/
+      - name: Log in to Expo
+        run: expo login --non-interactive --username haril.boy615@gmail.com --token ${{ secrets.EXPO_CLI_TOKEN }}
+
+      - name: Build Android app
+        run: expo build:android
+
+      - name: Save APK artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: app-release
+          path: android/app/build/outputs/apk/release/*.apk
           
   deploy:
     runs-on: ubuntu-latest
