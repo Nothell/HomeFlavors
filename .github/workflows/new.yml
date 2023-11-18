@@ -47,9 +47,6 @@ jobs:
         run: expo login --non-interactive --username haril.boy615@gmail.com
         env:
           EXPO_CLI_PASSWORD: 12345678@
-
-      - name: Update Expo SDK
-        run: expo upgrade
         
       - name: Install eas-cli
         run: npm install -g eas-cli
@@ -57,7 +54,7 @@ jobs:
       - name: Build Android app
         run: |
            cd Home-Flavours-GIT
-           eas build -p android
+           eas build -p android --profile preview
 
 
 
