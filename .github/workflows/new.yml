@@ -42,6 +42,8 @@ jobs:
 
       - name: Log in to Expo
         run: expo login --non-interactive --username haril.boy615@gmail.com
+        env:
+          EXPO_CLI_PASSWORD: 12345678@
 
 
       - name: Build Android app
