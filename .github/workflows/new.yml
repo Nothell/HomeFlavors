@@ -46,7 +46,7 @@ jobs:
           working-directory: Home-Flavours-GIT  # Adjust this based on your project's directory structure
 
       - name: List APK files
-        run: ls -R Home-Flavours-GIT/android/app/build/outputs/apk/
+        run: ls -R Home-Flavours-GIT/
           
   deploy:
     runs-on: ubuntu-latest
