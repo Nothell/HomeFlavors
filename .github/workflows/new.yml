@@ -49,11 +49,12 @@ jobs:
           EXPO_CLI_PASSWORD: 12345678@
 
 
+      - name: Install eas-cli
+        run: npm install -g eas-cli
+      
       - name: Build Android app
-        run: |
-          cd Home-Flavours-GIT
-          yarn add expo
-          expo build:android
+        run: eas build -p android
+
 
 
       - name: Save APK artifact
