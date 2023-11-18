@@ -47,7 +47,9 @@ jobs:
 
 
       - name: Build Android app
-        run: expo build:android
+        run: |
+          cd Home-Flavours-GIT
+          expo build:android
 
       - name: Save APK artifact
         uses: actions/upload-artifact@v2
