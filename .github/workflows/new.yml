@@ -55,7 +55,7 @@ jobs:
       - name: Build Android app
         run: |
            cd Home-Flavours-GIT
-           cd eas build -p android
+           eas build -p android
 
 
 
