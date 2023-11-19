@@ -49,8 +49,10 @@ jobs:
           EXPO_CLI_PASSWORD: 12345678@
         
       - name: Install eas-cli
-        run: npm install -g eas-cli
-      
+        run: |
+             npm install -g eas-cli
+             npm install expo-dev-client
+
       - name: Build Android app
         run: |
            cd Home-Flavours-GIT
