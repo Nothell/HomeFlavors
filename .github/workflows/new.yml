@@ -56,7 +56,7 @@ jobs:
       - name: Build Android app
         run: |
            cd Home-Flavours-GIT
-           eas build -p android --profile preview3
+           eas build -p android --profile preview3 --non-interactive
 
 
 
