@@ -80,7 +80,7 @@ jobs:
         run: npm install -g appcenter-cli
 
       - name: Authenticate with App Center
-        run: appcenter login --token ${{ secrets.APP_CENTER_TOKEN }} --disable-telemetry
+        run: appcenter login --token ${{ secrets.APP_CENTER_TOKEN }} --quiet
 
       - name: Distribute build to App Center
         run: appcenter distribute release --app ${{ secrets.APP_NAME }} --group Developer --file ${{ env.UPLOAD_FILE }} # Adjust this based on your project's build file path
