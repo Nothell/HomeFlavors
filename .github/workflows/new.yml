@@ -54,7 +54,7 @@ jobs:
       - name: Build Android app
         run: |
            cd Home-Flavours-GIT
-           eas build -p android --profile preview
+           eas build -p android --profile preview3
 
 
 
@@ -62,7 +62,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: app-release
-          path: android/app/build/outputs/apk/release/*.apk
+          path: android/app/build/outputs/apk/debug/app-debug.apk
           
   deploy:
     runs-on: ubuntu-latest

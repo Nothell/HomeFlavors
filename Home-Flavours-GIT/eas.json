@@ -8,6 +8,10 @@
       "extends": "production",
       "distribution": "internal",
       "env": {}
+    },
+	"preview3": {
+      "developmentClient": true,
+	  "env": {}
     }
   }
 }
