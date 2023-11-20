@@ -26,28 +26,14 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 1.8
-   
-      - name: Use GitHub Workspace
-        run: echo "GitHub Workspace: ${{ github.workspace }}"
 
-    - name: Run a Command in the Workspace
-      run: |
-        cd ${{ github.workspace }}
-        # Your command goes here
-      
-
-      - name: Upload APK
-        uses: actions/upload-artifact@v2
-        with:
-          name: App
-          path: ${{ github.workspace}} .android/app/build/outputs/apk/debug/app-debug.apk'
       - name: upload artefact to App Center
         uses: wzieba/AppCenter-Github-Action@v1
         with:
-          appName: ronakukani/Github-Actions-Demo
+          appName: G8-HomeFlavours/HomeFlavours
           token: ${{secrets.APP_CENTER_TOKEN}}
-          group: Testers
-          file: app/build/outputs/apk/release/app-release.apk
+          group: Collaborators
+          file: ${{ env.UPLOAD_FILE }}
           notifyTesters: true
           debug: false
           releaseNotes: "here is your release note"
