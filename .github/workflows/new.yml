@@ -64,10 +64,6 @@ jobs:
           name: app-debug
           path: ${{ env.UPLOAD_FILE }}
           
-  deploy:
-    runs-on: ubuntu-latest
-    needs: build
-    steps:
       - name: Install App Center CLI
         run: npm install -g appcenter-cli    
 
