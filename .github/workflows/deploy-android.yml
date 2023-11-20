@@ -11,30 +11,20 @@ env:
   APP_CENTER_TOKEN: ${{ secrets.APP_CENTER_TOKEN_MYAPP_ANDROID }}
   APP_NAME: ${{ 'MyApp-Android/ENV_TEST' }}
   TESTING_GROUP: ${{ 'ENV_TEST' }}
-  UPLOAD_FILE: ${{ 'android/app/build/outputs/apk/app-release.apk' }}
+  UPLOAD_FILE: ${{ '/android/app/build/outputs/apk/app-release.apk' }}
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
-
-      - name: Use GitHub Workspace
-        run: echo "GitHub Workspace: ${{ github.workspace }}"
-
-      - name: Run a Command in the Workspace
-        run: |
-          cd ${{ github.workspace }}
-          # Your command goes here
-        
-
-
+        uses: actions/checkout@v3  
+       
       - name: Upload to App Center
         uses: wzieba/AppCenter-Github-Action@v1
         with:
           appName: ${{ env.APP_NAME }}
           token: ${{ env.APP_CENTER_TOKEN }}
-          group: Developer
+          group: internal
           file: ${{ env.UPLOAD_FILE }}
           debug: true
