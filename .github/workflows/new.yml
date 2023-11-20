@@ -11,7 +11,7 @@ env:
   APP_CENTER_TOKEN: ${{ secrets.APP_CENTER_TOKEN_MYAPP_ANDROID }}
   APP_NAME: 'MyApp-Android/ENV_TEST'
   TESTING_GROUP: 'ENV_TEST'
-  UPLOAD_FILE: '.android/app/build/outputs/apk/debug/app-debug.apk'
+  UPLOAD_FILE: './android/app/build/outputs/apk/debug/app-debug.apk'
   JAVA_HOME_9.0.4_x64: /opt/hostedtoolcache/jdk/9.0.4/x64
   JAVA_HOME: /opt/hostedtoolcache/jdk/9.0.4/x64
   JAVA_HOME_9_0_4_X64: /opt/hostedtoolcache/jdk/9.0.4/x64
@@ -58,29 +58,21 @@ jobs:
            cd Home-Flavours-GIT
            eas build -p android --profile preview3 --non-interactive
 
-
-
       - name: Save APK artifact
         uses: actions/upload-artifact@v2
         with:
           name: app-release
-          path: android/app/build/outputs/apk/debug/app-debug.apk
+          path: ${{ env.UPLOAD_FILE }}
           
   deploy:
     runs-on: ubuntu-latest
     needs: build
     steps:
-      - name: Upload build to App Center
-        uses: actions/upload-artifact@v2
-        with:
-          name: app-build
-          path: ${{ env.UPLOAD_FILE }} # Adjust this based on your project's build output directory
-
       - name: Install App Center CLI
-        run: npm install -g appcenter-cli
+        run: npm install -g appcenter-cli    
 
       - name: Authenticate with App Center
-        run: appcenter login --token ${{ secrets.APP_CENTER_TOKEN }} --quiet
+        run: appcenter login --token f5af3da87aea380656d92e1f0412acbfc5a3f059 --quiet
 
-      - name: Distribute build to App Center
-        run: appcenter distribute release --app ${{ secrets.APP_NAME }} --group Developer --file ${{ env.UPLOAD_FILE }} # Adjust this based on your project's build file path
+      - name: Upload to App Center
+        run: appcenter distribute release --app G8-HomeFlavours/HomeFlavours --group internal --file ${{ env.UPLOAD_FILE }}
