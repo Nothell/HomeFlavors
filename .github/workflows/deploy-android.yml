@@ -18,8 +18,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3  
-       
+        uses: actions/checkout@v3
+        
+      - name: Checkout direct
+        run: |
+             cd Home-Flavours-GIT
+             cd android
+             ls -l
+        
       - name: Upload to App Center
         uses: wzieba/AppCenter-Github-Action@v1
         with:
