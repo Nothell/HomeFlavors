@@ -26,7 +26,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v1
         with:
-          node-version: 16.x
+          node-version: 18.x
 
       - name: Set up Java
         uses: actions/setup-java@v1.4.3
@@ -75,4 +75,6 @@ jobs:
         run: appcenter login --token f5af3da87aea380656d92e1f0412acbfc5a3f059 --quiet
 
       - name: Upload to App Center
-        run: appcenter distribute release --app G8-HomeFlavours/HomeFlavours --group internal --file ${{ env.UPLOAD_FILE }}
+        run: |
+          cd Home-Flavours-GIT
+          appcenter distribute release --app G8-HomeFlavours/HomeFlavours --group internal --file ${{ env.UPLOAD_FILE }}
