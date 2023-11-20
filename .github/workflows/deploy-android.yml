@@ -22,8 +22,7 @@ jobs:
         
       - name: Checkout direct
         run: |
-             cd Home-Flavours-GIT
-             cd android
+             cd /home/expo/workingdir/build/Home-Flavours-GIT/android/
              ls -l
         
       - name: Upload to App Center
