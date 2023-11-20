@@ -11,7 +11,7 @@ env:
   APP_CENTER_TOKEN: ${{ secrets.APP_CENTER_TOKEN_MYAPP_ANDROID }}
   APP_NAME: ${{ 'MyApp-Android/ENV_TEST' }}
   TESTING_GROUP: ${{ 'ENV_TEST' }}
-  UPLOAD_FILE: ${{ '/home/expo/workingdir/build/Home-Flavours-GIT/android/app/build/outputs/apk/debug/app-debug.apk' }}
+  UPLOAD_FILE: ${{ '/android/app/build/outputs/apk/debug/app-debug.apk' }}
 
 jobs:
   build:
@@ -22,14 +22,9 @@ jobs:
         
       - name: Checkout direct
         run: |
-             cd /home/expo/workingdir/build/Home-Flavours-GIT/android/
+             cd Home-Flavours-GIT
              ls -l
         
       - name: Upload to App Center
-        uses: wzieba/AppCenter-Github-Action@v1
-        with:
-          appName: ${{ env.APP_NAME }}
-          token: ${{ env.APP_CENTER_TOKEN }}
-          group: internal
-          file: ${{ env.UPLOAD_FILE }}
-          debug: true
+        run: |
+         appcenter distribute release --app G8-HomeFlavours/HomeFlavours --group internal --file ${{ env.UPLOAD_FILE }}
