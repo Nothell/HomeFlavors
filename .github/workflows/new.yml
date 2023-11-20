@@ -73,4 +73,8 @@ jobs:
       - name: Upload to App Center
         run: |
           cd Home-Flavours-GIT
+          ls -l
+          expo build:status -j > build-status.json
+          APK_LINK=$(jq -r '.artifacts.android.url' build-status.json)
+          appcenter distribute release --app G8-HomeFlavours/HomeFlavours --group internal --file ${{ APK_LINK }}
           appcenter distribute release --app G8-HomeFlavours/HomeFlavours --group internal --file ${{ env.UPLOAD_FILE }}
