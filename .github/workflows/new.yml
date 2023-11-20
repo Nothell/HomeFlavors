@@ -73,5 +73,6 @@ jobs:
       - name: Upload to App Center
         run: |
           cd Home-Flavours-GIT
+          cd android
           ls -l
       
