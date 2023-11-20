@@ -61,7 +61,7 @@ jobs:
       - name: Save APK artifact
         uses: actions/upload-artifact@v2
         with:
-          name: app-release
+          name: app-debug
           path: ${{ env.UPLOAD_FILE }}
           
   deploy:
