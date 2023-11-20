@@ -33,4 +33,4 @@ jobs:
 
         
       - name: Upload to App Center
-        run: appcenter distribute release --app G8-HomeFlavours/HomeFlavours --group Collaborators --file ${{ env.UPLOAD_FILE }}
+        run: appcenter codepush release-react -a G8-HomeFlavours/HomeFlavours
