@@ -85,8 +85,5 @@ jobs:
         run: appcenter login --token f5af3da87aea380656d92e1f0412acbfc5a3f059 --quiet
 
       - name: Upload to App Center
-        run: |
-          cd Home-Flavours-GIT
-          cd android
-          ls -l
+        run: appcenter distribute release -f $android_link -g Collaborators --app G8-HomeFlavours/HomeFlavours
       
