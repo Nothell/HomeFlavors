@@ -56,7 +56,21 @@ jobs:
       - name: Build Android app
         run: |
            cd Home-Flavours-GIT
-           eas build -p android --profile preview3 --non-interactive
+           # eas build -p android --profile preview3 --non-interactive
+           eas build --profile preview3 --platform all --non-interactive
+
+           # Extract build information, Android, and iOS links
+           build_json=$(eas build --profile preview --platform all --non-interactive --json)
+           android_link=$(echo $build_json | jq -r '.[] | select(.platform=="ANDROID") | .artifacts.applicationArchiveUrl')
+           ios_link=$(echo $build_json | jq -r '.[] | select(.platform=="IOS") | .artifacts.applicationArchiveUrl')
+
+           # Save the information to a file
+           EOF=$(dd if=/dev/urandom bs=15 count=1 status=none | base64)
+           echo "build_json<<$EOF" >> $GITHUB_OUTPUT
+           echo "$build_json" >> $GITHUB_OUTPUT
+           echo "$EOF" >> $GITHUB_OUTPUT
+           echo "android_link=$android_link" >> $GITHUB_OUTPUT
+           echo "ios_link=$ios_link" >> $GITHUB_OUTPUT
 
       - name: Save APK artifact
         uses: actions/upload-artifact@v2
