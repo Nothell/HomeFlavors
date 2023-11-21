@@ -14,8 +14,8 @@
     "assetBundlePatterns": [
       "**/*"
     ],
-    "ios": {
-      "supportsTablet": true
+     "ios": {
+      "bundleIdentifier": "com.gbcgrouphf.homeflavors"
     },
     "android": {
       "adaptiveIcon": {
