@@ -1,0 +1,83 @@
+name: Build_Deploy_IOS_Simulator
+
+on:
+  workflow_dispatch:
+    branches: [Development]
+  push:
+    tags:
+      - 'v[0-9]+.[0-9]+.[0-9]+([0-9]+)'
+
+env:
+  APP_CENTER_TOKEN: ${{ secrets.APP_CENTER_TOKEN_MYAPP_ANDROID }}
+  APP_NAME: 'MyApp-Android/ENV_TEST'
+  TESTING_GROUP: 'ENV_TEST'
+  JAVA_HOME_9.0.4_x64: /opt/hostedtoolcache/jdk/9.0.4/x64
+  JAVA_HOME: /opt/hostedtoolcache/jdk/9.0.4/x64
+  JAVA_HOME_9_0_4_X64: /opt/hostedtoolcache/jdk/9.0.4/x64
+  
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      
+      - name: Set up Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: 18.x
+
+      - name: Set up Java
+        uses: actions/setup-java@v1.4.3
+        with:
+          java-version: '9.0.4' # The JDK version to make available on the path.
+          java-package: jdk # (jre, jdk, or jdk+fx) - defaults to jdk
+          architecture: x64 # (x64 or x86) - defaults to x64
+
+      - name: Install Yarn
+        run: |
+          npm install -g yarn
+          yarn install
+          
+      - name: Install Expo CLI
+        run: npm install -g expo-cli
+
+      - name: Log in to Expo
+        run: expo login --non-interactive --username haril.boy615@gmail.com
+        env:
+          EXPO_CLI_PASSWORD: 12345678@
+        
+      - name: Install eas-cli
+        run: |
+             npm install -g eas-cli
+             npm install expo-dev-client
+
+      - name: Build IOS app
+        run: |
+           cd Home-Flavours-GIT
+
+
+           # Extract build information, Android, and iOS links
+            
+            build_json=$(eas build -p ios --profile preview3 --non-interactive --json)
+            ios_link=$(echo $build_json | jq -r '.[] | select(.platform=="IOS") | .artifacts.applicationArchiveUrl')
+
+            # Save the information to a file
+            EOF=$(dd if=/dev/urandom bs=15 count=1 status=none | base64)
+            echo "build_json<<$EOF" >> $GITHUB_WORKSPACE/my_output_file.txt
+            echo "$build_json" >> $GITHUB_WORKSPACE/my_output_file.txt
+            echo "$EOF" >> $GITHUB_WORKSPACE/my_output_file.txt
+            echo "ios_link=$ios_link" >> $GITHUB_WORKSPACE/my_output_file.txt
+            
+            # Download the IOS file
+             echo "Downloading iOS build artifact..."
+             wget $ios_link -O HomeFlavors.zip
+             unzip HomeFlavors.zip -d HomeFlavors
+            
+            # Upload the IOS to App Center
+            echo "Uploading to App Center..."
+            npm install -g appcenter-cli
+            appcenter login --token f5af3da87aea380656d92e1f0412acbfc5a3f059 --quiet
+            
+            # Assuming you have an environment variable for the owner and app name in App Center
+            appcenter distribute release -f HomeFlavors/HomeFlavors.app -g Collaborators --app G8-HomeFlavours/HomeFlavours
