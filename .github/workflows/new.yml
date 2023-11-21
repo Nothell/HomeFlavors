@@ -61,7 +61,7 @@ jobs:
            # Extract build information, Android, and iOS links
             
             build_json=$(eas build -p android --profile preview3 --non-interactive --json)
-            android_link=$(echo $build_json | jq -r '.artifacts.applicationArchiveUrl')
+            android_link=$(echo $build_json | jq -r '.[] | select(.platform=="ANDROID") | .artifacts.applicationArchiveUrl')
             
             # Save the information to a file
             EOF=$(dd if=/dev/urandom bs=15 count=1 status=none | base64)
