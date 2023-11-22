@@ -56,7 +56,7 @@ jobs:
         run: |
            cd Home-Flavours-GIT
            #  eas build -p ios --non-interactive
-
+            eas build --profile development-simulator --platform ios
 
            # Extract build information, Android, and iOS links
             
