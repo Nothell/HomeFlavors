@@ -55,12 +55,12 @@ jobs:
       - name: Build IOS app
         run: |
            cd Home-Flavours-GIT
-           eas build -p ios --non-interactive
+           #  eas build -p ios --non-interactive
 
 
            # Extract build information, Android, and iOS links
             
-            #  build_json=$(eas build -p ios --profile preview3 --non-interactive --json)
+            #  build_json=$(eas build --profile development-simulator --platform ios --json)
             #  ios_link=$(echo $build_json | jq -r '.[] | select(.platform=="IOS") | .artifacts.applicationArchiveUrl')
 
             # Save the information to a file
@@ -72,8 +72,8 @@ jobs:
             
             # Download the IOS file
               # echo "Downloading iOS build artifact..."
-             #  wget $ios_link -O HomeFlavors.zip
-             #  unzip HomeFlavors.zip -d HomeFlavors
+             #  wget $ios_link -O HomeFlavours.zip
+             #  unzip HomeFlavours.zip -d HomeFlavours
             
             # Upload the IOS to App Center
              # echo "Uploading to App Center..."
@@ -81,4 +81,4 @@ jobs:
              # appcenter login --token f5af3da87aea380656d92e1f0412acbfc5a3f059 --quiet
             
             # Assuming you have an environment variable for the owner and app name in App Center
-            #  appcenter distribute release -f HomeFlavors/HomeFlavors.app -g Collaborators --app G8-HomeFlavours/HomeFlavours
+            #  appcenter distribute release -f HomeFlavours/HomeFlavours.app -g Collaborators --app G8-HomeFlavours/HomeFlavours
