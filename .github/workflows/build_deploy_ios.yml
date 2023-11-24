@@ -33,15 +33,12 @@ jobs:
         node-version: '14'
 
     - name: Install Expo CLI
-      run: npm install -g expo-cli 
-           npm install expo
-           npm install
+      run: npm install -g expo-cli
 
     - name: Log in to Expo
       run: expo login --non-interactive --username haril.boy615@gmail.com
       env:
         EXPO_CLI_PASSWORD: 12345678@
-        
 
     - name: Install eas-cli
       run: |
