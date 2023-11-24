@@ -20,5 +20,8 @@
         "simulator": true
       }
     }
+  },
+  "cli": {
+    "promptToConfigurePushNotifications": false
   }
 }
