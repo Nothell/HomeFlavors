@@ -33,7 +33,13 @@ jobs:
         node-version: '14'
 
     - name: Install Expo CLI
-      run: npm install -g expo-cli
+      run: npm install -g expo-cli 
+           npm install expo
+           npm install
+
+    - name: Build Expo project
+      run: |
+        expo build
 
     - name: Log in to Expo
       run: expo login --non-interactive --username haril.boy615@gmail.com
