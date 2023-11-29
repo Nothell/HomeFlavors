@@ -3,7 +3,7 @@ import { View, StyleSheet } from 'react-native';
 import Swiper from 'react-native-swiper';
 import SignInComponent from '../Components/SignInComponent';
 import SignUpComponent from '../Components/SignUpComponent';
-import EnterpreneurComponent from '../Components/EnterpreneurComponent';
+
 
 const OnboardingScreen = ({navigation}) => {
   return (
@@ -14,9 +14,6 @@ const OnboardingScreen = ({navigation}) => {
         </View>
         <View>
           <SignInComponent navigation={navigation} />
-        </View>
-        <View>
-          <EnterpreneurComponent />
         </View>
       </Swiper>
     </View>

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, View, Image, StyleSheet } from 'react-native';
+import { Text, View, Image, StyleSheet, TouchableOpacity } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import MyAccountScreen from './MyAccountScreen';
 import MyCartScreen from "./MyCartScreen";
@@ -9,12 +9,13 @@ import HeaderComponent from '../Components/HeaderComponent';
 import { useState,useEffect } from 'react';
 import { db,auth } from '../Firebase/FirebaseConfig';
 import { collection, getDocs, where, query } from 'firebase/firestore';
+// import { launchImageLibrary} from 'react-native-image-picker';
 
 
 const Tab = createBottomTabNavigator();
 
 
-const MainScreen = ({navigation}) => {
+const MainScreen = () => {
 
     const [userName, setUserName] = useState("")
 
@@ -48,43 +49,69 @@ const MainScreen = ({navigation}) => {
       }, []);
 
 
+    //   const handleSelectProfilePhoto = () => {
+    //     const options = {
+    //       mediaType: 'photo',
+    //       includeBase64: false,
+    //       maxHeight: 2000,
+    //       maxWidth: 2000,
+    //     };
+    
+    //     launchImageLibrary(options, (response) => {
+    //       if (response.didCancel) {
+    //         console.log('User cancelled image picker');
+    //       } else if (response.error) {
+    //         console.log('Image picker error: ', response.error);
+    //       } else {
+    //         let imageUri = response.uri || response.assets?.[0]?.uri;
+    //         setSelectedImage(imageUri);
+    //       }
+    //     });
+    //   };
+
+
     return (
-        <Tab.Navigator
-            initialRouteName="Browse"
-            screenOptions={{
-                activeTintColor: 'blue',
-            }}
-           
-        >
+        <Tab.Navigator initialRouteName="Browse" >
             <Tab.Screen component={CategoryCarousel} name="Browse"
                 options={{
-                    tabBarIcon: () => (
-                        <Ionicons name="search" size={24} color="black" />
+                    tabBarIcon: ({color}) => (
+                        <Ionicons name="search" size={24} color={color}/>
                     ),
                     headerTitle: () => <HeaderComponent />,
-                    headerTitleAlign: 'left'
+                    headerTitleAlign: 'left',
+                    tabBarActiveTintColor: '#ea584f',
+                    tabBarInactiveTintColor: 'black'
                 }}
             ></Tab.Screen>
             <Tab.Screen component={MyCartScreen} name="Cart"
                 options={{
                     tabBarLabel: 'Cart',
-                    tabBarIcon: () => (
-                        <Ionicons name="ios-cart" size={24} color="black" />
+                    tabBarIcon: ({color}) => (
+                        <Ionicons name="ios-cart" size={24} color={color}/>
                     ),
                     headerTitle: () => <HeaderComponent />,
-                    headerTitleAlign: 'left'
+                    headerTitleAlign: 'left',
+                    tabBarActiveTintColor: '#ea584f',
+                    tabBarInactiveTintColor: 'black'
                 }}
             ></Tab.Screen>
             <Tab.Screen component={MyAccountScreen} name="Account"
                 options={{
                     tabBarLabel: 'My Account',
-                    tabBarIcon: () => (
-                        <MaterialCommunityIcons name="account-circle" size={24} color="black" />
+                    tabBarIcon: ({color}) => (
+                        <MaterialCommunityIcons name="account-circle" size={24} color={color}/>
                     ),
-                    headerTitle: () => <Text style={{fontSize:30,fontStyle:"italic"}}>Welcome {userName}</Text>,
+                    headerTitle: () => <Text style={{fontSize:30,fontStyle:"italic", color:"#ea584f"}}>Welcome {userName}</Text>,
                     headerTitleAlign: 'left',
-                    // headerRight:() => (
-                       
+                    tabBarActiveTintColor: '#ea584f',
+                    tabBarInactiveTintColor: 'black'
+                    // headerRight: () => (
+                    //   <TouchableOpacity
+                    //     style={{ marginLeft: 16 }}
+                    //     onPress={() => handleSelectProfilePhoto()}
+                    //  >
+                    //     <MaterialCommunityIcons name="image-edit" size={24} color="black" />
+                    //   </TouchableOpacity>
                     // )
                 }}
             ></Tab.Screen>

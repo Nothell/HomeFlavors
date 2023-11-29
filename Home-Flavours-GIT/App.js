@@ -1,8 +1,4 @@
 import { StyleSheet, Text, View, Button, Linking, Image } from 'react-native';
-import HeaderComponent from './Components/HeaderComponent';
-import CategoryCarousel from './Components/CategoryCarousel';
-import PopularItems from './Components/PopularItems';
-import SearchBar from './Components/SearchBar';
 import { useState, useEffect } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -11,10 +7,13 @@ import OnboardingScreen from './Screens/OnboardingScreen';
 import SignUpScreen from './Screens/SignUpScreen';
 import SignInScreen from './Screens/SignInScreen';
 import MainScreen from './Screens/MainScreen';
-import { AntDesign } from '@expo/vector-icons';
 import DishCategoryCarousel from './Components/DishCategoryCarousel';
 import PDPScreen from './Screens/PDPScreen';
 import CartScreen from './Screens/CartScreen';
+import EntrepreneurScreen from './Screens/EntrepreneurScreen';
+import EntrepreneurDetails from './Screens/EntrepreneurDetails';
+import EntrepreneurMain from './Screens/EntrepreneurMain';
+
 
 
 const Stack = createStackNavigator();
@@ -34,10 +33,13 @@ export default function App() {
     <View style={styles.container}>
     {isAppReady ? (
       <NavigationContainer>
-        <Stack.Navigator initialRouteName="Onboarding">
+        <Stack.Navigator initialRouteName="Onboarding" screenOptions={{ gestureEnabled: false }}>
           <Stack.Screen name="Onboarding" component={OnboardingScreen} options={{ headerShown: false }}/>
           <Stack.Screen name="SignUp" component={SignUpScreen} options={{ headerShown: false }}/>
           <Stack.Screen name="SignIn" component={SignInScreen} options={{ headerShown: false }}/>
+          <Stack.Screen name="Entrepreneur" component={EntrepreneurScreen} options={{ headerShown: false }}/>
+          <Stack.Screen name = "EntrepreneurDetails" component={EntrepreneurDetails} options={{headerShown : false}}/>
+          <Stack.Screen name = "EntrepreneurMain" component={EntrepreneurMain} options={{headerShown : false}}/>
           <Stack.Screen name="Main" component={MainScreen} options={{ headerShown: false }}/>
           <Stack.Screen name="Category" component={DishCategoryCarousel} />
           <Stack.Screen name="PDPScreen" component={PDPScreen} />

@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { View, Text, TextInput,Image, TouchableOpacity, StyleSheet, Alert } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { View, Text, TextInput,Image, Switch, StyleSheet, Alert } from 'react-native';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { auth,db } from '../Firebase/FirebaseConfig';
 import { setDoc, doc } from 'firebase/firestore';
@@ -20,6 +20,11 @@ const SignUpScreen = ({navigation}) => {
     const [country, setCountry] = useState('');
     const [streetName, setStreetName] = useState('');
     const [pincode, setPinCode] = useState('');
+    const [isCustomer, setIsCustomer] = useState(true);
+
+    const toggleSwitch = () => {
+        setIsCustomer((prevState) => !prevState);
+      };
     
     const [formFieldData, setFormFieldData] = useState(
         {
@@ -31,7 +36,8 @@ const SignUpScreen = ({navigation}) => {
             streetName:streetName,
             city:city,
             country:country,
-            pincode:pincode
+            pincode:pincode,
+            isCustomer:isCustomer
         }
     )
     const onFormFieldChange = (formField,updatedValue) => {
@@ -43,6 +49,7 @@ const SignUpScreen = ({navigation}) => {
 
 
     const handleSignUp = async () => {
+
         if(formFieldData.name === "" || formFieldData.email === "" || formFieldData.phoneNo === "" || formFieldData.password === "" || confirmPassword === ""){
             alert("Please enter required information (*).");
             console.log("Connot move forward")
@@ -54,9 +61,10 @@ const SignUpScreen = ({navigation}) => {
         }
         try{
             const createdUser = await createUserWithEmailAndPassword(auth, formFieldData.email, formFieldData.password)
-            alert(`Id of created user is : ${createdUser.user.email}`)
+            const uid = createdUser.user.uid;
 
             const profileDataToAdd = {
+                uid: uid,
                 name: formFieldData.name,
                 email: formFieldData.email,
                 age: formFieldData.age,
@@ -64,7 +72,8 @@ const SignUpScreen = ({navigation}) => {
                 streetName: formFieldData.streetName,
                 city: formFieldData.city,
                 pincode: formFieldData.pincode,
-                country: formFieldData.country
+                country: formFieldData.country,
+                isCustomer: isCustomer
             }
             await setDoc(doc(db, "userProfiles", createdUser.user.uid), profileDataToAdd)
             alert("Profile created!!!!")
@@ -84,6 +93,7 @@ const SignUpScreen = ({navigation}) => {
             </View>
 
             <ScrollView style={{width:"100%"}}>
+
                 <TextInput
                     style={{fontSize:20,width:"90%",backgroundColor:"#e1e2e3",borderRadius:10,margin:10,padding:10}}
                     placeholder="Name*"
@@ -134,6 +144,30 @@ const SignUpScreen = ({navigation}) => {
                     value={confirmPassword}
                     secureTextEntry
                 />
+
+                <View style={{flexDirection:"row",padding:10,margin:10}}>
+                {
+                isCustomer ? 
+                <View style={{flexDirection:"row"}}>
+                <Text style={{color:"#ea584f",marginHorizontal:5, fontSize:25}}>Customer</Text>
+                <Text style={{fontSize:25}}>Or</Text>
+                <Text style={{marginHorizontal:5,fontSize:25}}>Entrepreneur</Text>
+                </View>
+                 : 
+                 <View style={{flexDirection:"row"}}>
+                 <Text style={{marginHorizontal:5,fontSize:25}}>Customer</Text>
+                 <Text style={{fontSize:25}}>Or</Text>
+                 <Text style={{color:"#ea584f",marginHorizontal:5,fontSize:25}}>Entrepreneur</Text>
+                 </View>
+                 }
+                <Switch
+                    trackColor={{ false: '#767577', true: '#e1e2e3' }}
+                    thumbColor="#ea584f"
+                    ios_backgroundColor="#3e3e3e"
+                    onValueChange={toggleSwitch}
+                    value={isCustomer}
+                />
+                </View>
 
                 <View style={{flexDirection:"row",padding:10}}>
                     <Text style={{color:"#ea584f",fontSize:20,fontStyle:"italic",fontWeight:"bold"}}>We will find to you at</Text>
