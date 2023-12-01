@@ -48,4 +48,4 @@ jobs:
     - name: Build iOS app
       run: |
         cd Home-Flavours-GIT
-        eas build -p ios --profile preview3 --non-interactive
+        eas build -p ios --non-interactive
