@@ -15,6 +15,12 @@ import { AntDesign } from '@expo/vector-icons';
 import DishCategoryCarousel from './Components/DishCategoryCarousel';
 import PDPScreen from './Screens/PDPScreen';
 import CartScreen from './Screens/CartScreen';
+import ShippingScreen from './Screens/ShippingScreen';
+import { StripeProvider } from '@stripe/stripe-react-native';
+import PaymentScreen from './Screens/PaymentScreen';
+import stripe from 'react-native-stripe-payments';
+import OrderPlacingScreen from './Screens/OrderPlacingScreen';
+import OrderConfScreen from './Screens/OrderConfScreen';
 
 
 const Stack = createStackNavigator();
@@ -27,13 +33,18 @@ export default function App() {
     setTimeout(() => {
       setAppReady(true);
     }, 3000);
+    
 
   }, []);
 
   return (
     <View style={styles.container}>
     {isAppReady ? (
-      <NavigationContainer>
+      <StripeProvider
+      publishableKey={"pk_test_51OHE5VKrV6huuMRWMWGZ2jnUUqLaZdtrYSPgV13RAmg3mBh06D0WEgDfBxYnVZS4n8fKLTIebZltzGz5ptrqpBt300jFQKIw1s"}
+      urlScheme="your-url-scheme" // required for 3D Secure and bank redirects
+    >
+        <NavigationContainer>
         <Stack.Navigator initialRouteName="Onboarding">
           <Stack.Screen name="Onboarding" component={OnboardingScreen} options={{ headerShown: false }}/>
           <Stack.Screen name="SignUp" component={SignUpScreen} options={{ headerShown: false }}/>
@@ -42,8 +53,15 @@ export default function App() {
           <Stack.Screen name="Category" component={DishCategoryCarousel} />
           <Stack.Screen name="PDPScreen" component={PDPScreen} />
         <Stack.Screen name="CartScreen" component={CartScreen} />
+        <Stack.Screen name="ShippingScreen" component={ShippingScreen} options={{ headerShown: false }} />
+        <Stack.Screen name="PaymentScreen" component={PaymentScreen} options={{ headerShown: false }} />
+        <Stack.Screen name="OrderPlacingScreen" component={OrderPlacingScreen} options={{ headerShown: false }} />
+        <Stack.Screen name="OrderConfScreen" component={OrderConfScreen} options={{ headerShown: false }} />
         </Stack.Navigator>
       </NavigationContainer>
+
+    </StripeProvider>
+      
       
     ) : (
       <SplashScreen />
