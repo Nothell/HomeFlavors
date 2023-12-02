@@ -1,0 +1,51 @@
+name: Build_Deploy_IOS
+
+on:
+  workflow_dispatch:
+    branches: [Development]
+  push:
+    tags:
+      - 'v[0-9]+.[0-9]+.[0-9]+([0-9]+)'
+
+env:
+  APP_CENTER_TOKEN: ${{ secrets.APP_CENTER_TOKEN_MYAPP_ANDROID }}
+  APP_NAME: 'MyApp-Android/ENV_TEST'
+  TESTING_GROUP: 'ENV_TEST'
+  UPLOAD_FILE: './android/app/build/outputs/apk/debug/app-debug.apk'
+  JAVA_HOME_9.0.4_x64: /opt/hostedtoolcache/jdk/9.0.4/x64
+  JAVA_HOME: /opt/hostedtoolcache/jdk/9.0.4/x64
+  JAVA_HOME_9_0_4_X64: /opt/hostedtoolcache/jdk/9.0.4/x64
+  
+jobs:
+  build:
+    runs-on: macos-latest
+
+    env:
+      APP_CENTER_TOKEN: ${{ secrets.APP_IOS_TOKEN }}
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '14'
+
+    - name: Install Expo CLI
+      run: npm install -g expo-cli
+
+    - name: Log in to Expo
+      run: expo login --non-interactive --username haril.boy615@gmail.com
+      env:
+        EXPO_CLI_PASSWORD: 12345678@
+
+    - name: Install eas-cli
+      run: |
+        npm install -g eas-cli
+        npm install expo-dev-client
+
+    - name: Build iOS app
+      run: |
+        cd Home-Flavours-GIT
+        eas build -p ios --profile preview3 --non-interactive
