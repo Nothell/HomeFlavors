@@ -9,6 +9,7 @@ import HeaderComponent from '../Components/HeaderComponent';
 import { useState,useEffect } from 'react';
 import { db,auth } from '../Firebase/FirebaseConfig';
 import { collection, getDocs, where, query } from 'firebase/firestore';
+import CartScreen from './CartScreen';
 // import { launchImageLibrary} from 'react-native-image-picker';
 
 
@@ -83,7 +84,7 @@ const MainScreen = () => {
                     tabBarInactiveTintColor: 'black'
                 }}
             ></Tab.Screen>
-            <Tab.Screen component={MyCartScreen} name="Cart"
+            <Tab.Screen component={CartScreen} name="CartScreen"
                 options={{
                     tabBarLabel: 'Cart',
                     tabBarIcon: ({color}) => (

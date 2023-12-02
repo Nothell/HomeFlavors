@@ -13,7 +13,10 @@ import CartScreen from './Screens/CartScreen';
 import EntrepreneurScreen from './Screens/EntrepreneurScreen';
 import EntrepreneurDetails from './Screens/EntrepreneurDetails';
 import EntrepreneurMain from './Screens/EntrepreneurMain';
-
+import ShippingScreen from './Screens/ShippingScreen';
+import PaymentScreen from './Screens/PaymentScreen';
+import OrderPlacingScreen from './Screens/OrderPlacingScreen';
+import OrderConfScreen from './Screens/OrderConfScreen';
 
 
 const Stack = createStackNavigator();
@@ -33,7 +36,7 @@ export default function App() {
     <View style={styles.container}>
     {isAppReady ? (
       <NavigationContainer>
-        <Stack.Navigator initialRouteName="Onboarding" screenOptions={{ gestureEnabled: false }}>
+      <Stack.Navigator initialRouteName="Onboarding">
           <Stack.Screen name="Onboarding" component={OnboardingScreen} options={{ headerShown: false }}/>
           <Stack.Screen name="SignUp" component={SignUpScreen} options={{ headerShown: false }}/>
           <Stack.Screen name="SignIn" component={SignInScreen} options={{ headerShown: false }}/>
@@ -44,6 +47,10 @@ export default function App() {
           <Stack.Screen name="Category" component={DishCategoryCarousel} />
           <Stack.Screen name="PDPScreen" component={PDPScreen} />
         <Stack.Screen name="CartScreen" component={CartScreen} />
+        <Stack.Screen name="ShippingScreen" component={ShippingScreen} options={{ headerShown: false }} />
+        <Stack.Screen name="PaymentScreen" component={PaymentScreen} options={{ headerShown: false }} />
+        <Stack.Screen name="OrderPlacingScreen" component={OrderPlacingScreen} options={{ headerShown: false }} />
+        <Stack.Screen name="OrderConfScreen" component={OrderConfScreen} options={{ headerShown: false }} />
         </Stack.Navigator>
       </NavigationContainer>
       

@@ -29,10 +29,10 @@
     "web": {
       "favicon": "./assets/favicon.png"
     },
-    "extra": {
-      "eas": {
-        "projectId": "921073c6-3d8b-47d2-bc2b-a3d3d3539664"
-      }
-    }
+    // "extra": {
+    //   "eas": {
+    //     "projectId": "921073c6-3d8b-47d2-bc2b-a3d3d3539664"
+    //   }
+    // }
   }
 }
