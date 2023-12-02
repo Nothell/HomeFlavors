@@ -27,4 +27,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default AppBackground; // Export the component here
+export default AppBackground; 

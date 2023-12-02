@@ -1,24 +1,36 @@
 import React, { useState } from 'react';
 import { View, Text,Image, TextInput, TouchableOpacity, StyleSheet, Button, Alert } from 'react-native';
 import { signInWithEmailAndPassword,sendPasswordResetEmail } from 'firebase/auth';
-import { auth } from '../Firebase/FirebaseConfig';
+import { auth , db } from '../Firebase/FirebaseConfig';
 import { Ionicons } from '@expo/vector-icons'; 
 import { Entypo } from '@expo/vector-icons'; 
 import { AntDesign } from '@expo/vector-icons'; 
 import AppBackground from '../Components/AppBackground';
+import { collection, getDocs} from "firebase/firestore";
 
 
 
 const SignInScreen = ({navigation}) => {
   const [email, setEmail] = useState("akshat.sri19@gmail.com");
   const [password, setPassword] = useState("Akshat@123");
-  const [isHovered, setHovered] = useState(false);
 
 
   const handleSignIn = async () => {
       try {
-          await signInWithEmailAndPassword(auth, email, password)
-          navigation.navigate("Main")
+        const userCredentials = await signInWithEmailAndPassword(auth, email, password)
+        const querySnapshot = await getDocs(collection(db, "userProfiles"));
+        let isCustomerFound = false;
+        querySnapshot.forEach((doc) => {          
+          if(doc.data().isCustomer == true && doc.id === userCredentials.user.uid){
+            isCustomerFound = true;
+              return
+          }                           
+      })
+      if (isCustomerFound) {
+        navigation.navigate("Main")
+      } else {
+        navigation.navigate("EntrepreneurMain")
+      }    
       } catch(err) {
           console.log(err)
     }
@@ -45,6 +57,7 @@ const SignInScreen = ({navigation}) => {
         <View style={{alignItems: 'center', margin:100}}>
           <Image style={{height:100,width:100}} source={require('../assets/logo.png')} resizeMode="contain" />
           <Text style={{color:"#ea584f",fontSize:30}}>HomeFlavours</Text>
+          <Text style={{color:"#ea584f",fontSize:18,fontStyle:"italic"}}>FOOD DELIVERY APP</Text>
         </View>
       
         <View>
