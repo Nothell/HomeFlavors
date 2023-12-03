@@ -2,13 +2,13 @@ import React from 'react';
 import { Text, View, Image, StyleSheet, TouchableOpacity } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import MyAccountScreen from './MyAccountScreen';
-import MyCartScreen from "./MyCartScreen";
 import { Entypo, Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import CategoryCarousel from '../Components/CategoryCarousel';
 import HeaderComponent from '../Components/HeaderComponent';
 import { useState,useEffect } from 'react';
 import { db,auth } from '../Firebase/FirebaseConfig';
 import { collection, getDocs, where, query } from 'firebase/firestore';
+import CartScreen from './CartScreen';
 // import { launchImageLibrary} from 'react-native-image-picker';
 
 
@@ -83,7 +83,7 @@ const MainScreen = () => {
                     tabBarInactiveTintColor: 'black'
                 }}
             ></Tab.Screen>
-            <Tab.Screen component={MyCartScreen} name="Cart"
+            <Tab.Screen component={CartScreen} name="CartScreen"
                 options={{
                     tabBarLabel: 'Cart',
                     tabBarIcon: ({color}) => (
