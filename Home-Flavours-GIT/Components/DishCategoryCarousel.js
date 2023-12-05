@@ -1,25 +1,33 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, FlatList, StyleSheet, TouchableOpacity, Image, TextInput } from 'react-native';
-import { collection, getDocs } from 'firebase/firestore';
+import { collection, getDocs, query, where } from 'firebase/firestore';
 import { useRoute } from '@react-navigation/native';
 import { db } from '../firebaseConfig';
 import { useNavigation } from '@react-navigation/native';
 
 
-export default function DishCategoryCarousel() {
+export default function DishCategoryCarousel({ route }) {
     const [products, setProducts] = useState([]);
     const [search, setSearch] = useState('');
-    const route = useRoute();
+    // const route = useRoute();
     const { itemDta } = route.params;
     const navigation = useNavigation();
-    
+    const {  categoryId, categoryName } = route.params;
 
     useEffect(() => {
+        console.log('categoryId:', categoryId);
+        console.log('categoryName:', categoryName);
         const fetchProducts = async () => {
             try {
                 const productCollectionRef = collection(db, 'products');
-                const productSnapshot = await getDocs(productCollectionRef);
-
+               
+                let productQuery;
+                if (categoryName.toLowerCase() === 'all') {
+                    productQuery = query(productCollectionRef);
+                } else {
+                    productQuery = query(productCollectionRef, where('category', '==', categoryName));
+                }
+                const productSnapshot = await getDocs(productQuery);
                 const productsData = [];
                 productSnapshot.forEach((doc) => {
                     productsData.push({ id: doc.id, ...doc.data() });
@@ -31,9 +39,9 @@ export default function DishCategoryCarousel() {
         };
 
         fetchProducts();
-    }, []);
+    }, [categoryName]);
 
-    const filteredProducts = products.filter(product => product.name.toLowerCase().includes(search.toLowerCase()));
+    const filteredProducts = products.filter(product => product.category.toLowerCase().includes(search.toLowerCase()));
     const handleItemClick = (item) => {
         // Alert.alert('Item Clicked', `You clicked on ${item.title}`);
         navigation.navigate('PDPScreen', { item });
@@ -48,13 +56,6 @@ export default function DishCategoryCarousel() {
 
     return (
         <View style={styles.container}>
-            <View style={styles.searchBarContainer}>
-                <TextInput
-                    style={styles.searchBar}
-                    placeholder="Search..."
-                    onChangeText={text => setSearch(text)}
-                />
-            </View>
             <Text style={styles.title}>{itemDta}</Text>
             <FlatList
                 data={filteredProducts}

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, View, Text, ScrollView } from 'react-native';
+import { StyleSheet, View, Text, ScrollView,TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import ItemGrid from './ItemGrid';
 import DishDataGrid from './DishDataGrid';
@@ -7,7 +7,7 @@ import { useNavigation } from '@react-navigation/native';
 import DishCategoryCarousel from './DishCategoryCarousel';
 import { SearchBar } from 'react-native-elements';
 import { db } from '../firebaseConfig';
-import { collection, getDocs, query, orderBy } from 'firebase/firestore';
+import { collection, getDocs, query,where, orderBy } from 'firebase/firestore';
 
 export default function CategoryCarousel() {
   const [items, setItems] = useState([]);
@@ -24,21 +24,21 @@ export default function CategoryCarousel() {
 
   const getPopularList = async () => {
     try {
-      const q = query(collection(db, 'popularItems'));
+        const q = query(collection(db, "products"));
+        let productQuery = query(q, where('isPopular', '==', true));
 
-      const querySnapshot = await getDocs(q);
+        const querySnapshot = await getDocs(productQuery);
 
-      let myPopularList = [];
+        let myPopularList = [];
 
-      querySnapshot.forEach((doc) => {
-        myPopularList.push({
-          id: doc.id,
-          image: doc.data().image,
-          name: doc.data().name,
+        querySnapshot.forEach((doc) => {
+            
+            myPopularList.push({
+                id: doc.id, ...doc.data()
+            });
         });
-      });
-
-      setPopularItems(myPopularList);
+        
+        setPopularItems(myPopularList);
     } catch (err) {
       console.log(err);
     }
@@ -68,17 +68,21 @@ export default function CategoryCarousel() {
   };
 
   const handleItemClick = (item) => {
-    navigation.navigate('Category', { item });
+    navigation.navigate('Category', { categoryId: item.id, categoryName: item.name });
   };
 
   const handleSearch = () => {
     console.log('Searching for:', searchQuery);
     // Implement your search logic and update items state accordingly
   };
+  const handleItemPDPClick = (item) => {
+    // Alert.alert('Item Clicked', `You clicked on ${item.title}`);
+    navigation.navigate('PDPScreen', { item });
+};
 
   return (
     <View style={styles.container}>
-      <SearchBar
+      {/* <SearchBar
         placeholder="Search for categories..."
         onChangeText={(text) => setSearchQuery(text)}
         value={searchQuery}
@@ -86,9 +90,9 @@ export default function CategoryCarousel() {
         onSubmitEditing={handleSearch}
         containerStyle={styles.searchBarContainer}
         inputContainerStyle={styles.searchBarInputContainer}
-      />
+      /> */}
       <ItemGrid items={items} onItemClick={handleItemClick} />
-      <DishDataGrid data={popularItems} onItemClick={handleItemClick} />
+      <DishDataGrid data={popularItems} onItemClick={handleItemPDPClick} />
     </View>
   );
 }
