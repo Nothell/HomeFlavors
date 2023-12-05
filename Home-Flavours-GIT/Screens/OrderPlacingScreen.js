@@ -1,9 +1,7 @@
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Alert } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Alert, Image } from 'react-native';
 import { doc, collection, addDoc, query, where, getDocs, deleteDoc } from 'firebase/firestore';
-import { db, auth} from '../firebaseConfig';
-
-
+import { db, auth } from '../firebaseConfig';
 
 const OrderPlacingScreen = ({ route, navigation }) => {
   const {
@@ -37,7 +35,7 @@ const OrderPlacingScreen = ({ route, navigation }) => {
         const cartRef = collection(db, 'carts');
         const cartQuery = query(cartRef, where('userId', '==', user.uid));
         const cartDocs = await getDocs(cartQuery);
-        console.log("Hetreee")
+
         // Delete each document in the user's cart
         cartDocs.forEach(async (cartItem) => {
           await deleteDoc(doc(db, 'carts', cartItem.id));
@@ -64,23 +62,95 @@ const OrderPlacingScreen = ({ route, navigation }) => {
     }
   };
 
+  const formatShippingAddress = (address) => {
+    const { streetName, city, pincode, country, phoneNo } = address;
+    return `${streetName}, ${city}, ${pincode}, ${country}\nPhone: ${phoneNo}`;
+  };
+
+  const formatCardNumber = (cardNumber) => {
+    // Format card number as ---- ---- ---- ----
+    const formattedCardNumber = cardNumber.match(/.{1,4}/g).join(' ');
+    return formattedCardNumber;
+  };
+
+  const formatExpiryDate = (expiryDate) => {
+    // Format expiry date as --/--
+    const formattedExpiryDate = expiryDate.match(/.{1,2}/g).join('/');
+    return formattedExpiryDate;
+  };
+
   return (
     <View style={styles.container}>
-      <Text style={styles.headerText}>Place Order</Text>
-      <Text style={styles.sectionTitle}>Order Details:</Text>
-      <Text>Shipping Address: {JSON.stringify(shippingAddress)}</Text>
-      <Text>Shipping Method: {selectedShippingMethod}</Text>
-      <Text>Total Amount: ${updatedTotalAmount}</Text>
-      <Text>Selected Payment Method: {selectedPaymentMethod}</Text>
-      <Text>Card Number: {cardNumber}</Text>
-      <Text>CVV Number: {cvvNumber}</Text>
-      <Text>Expiry Date: {expiryDate}</Text>
+      {/* Header with Logo */}
+      <View style={styles.header}>
+        <Image
+          source={require('../assets/logo.jpg')}
+          style={{ height: 50, width: 50, marginRight: 10 }}
+          resizeMode="contain"
+        />
+        <Text style={styles.headerText}>Place Order</Text>
+      </View>
+
+      {/* Order Details Container */}
+      <View style={styles.orderDetailsContainer}>
+        <Text style={styles.sectionTitle}>Order Details</Text>
+
+        {shippingAddress && (
+          <View style={styles.orderDetailItem}>
+            <Text style={styles.detailLabel}>Shipping Address:</Text>
+            <Text style={styles.detailText}>{formatShippingAddress(shippingAddress)}</Text>
+          </View>
+        )}
+
+        {selectedShippingMethod && (
+          <View style={styles.orderDetailItem}>
+            <Text style={styles.detailLabel}>Shipping Method:</Text>
+            <Text style={styles.detailText}>{selectedShippingMethod}</Text>
+          </View>
+        )}
+
+        {updatedTotalAmount && (
+          <View style={styles.orderDetailItem}>
+            <Text style={styles.detailLabel}>Total Amount:</Text>
+            <Text style={styles.detailText}>${updatedTotalAmount}</Text>
+          </View>
+        )}
+
+        {selectedPaymentMethod && (
+          <View style={styles.orderDetailItem}>
+            <Text style={styles.detailLabel}>Payment Method:</Text>
+            <Text style={styles.detailText}>{selectedPaymentMethod}</Text>
+          </View>
+        )}
+
+        {selectedPaymentMethod === 'CreditCard' && cardNumber && (
+          <View style={styles.orderDetailItem}>
+            <Text style={styles.detailLabel}>Card Number:</Text>
+            <Text style={styles.detailText}>{formatCardNumber(cardNumber)}</Text>
+          </View>
+        )}
+
+        {selectedPaymentMethod === 'CreditCard' && cvvNumber && (
+          <View style={styles.orderDetailItem}>
+            <Text style={styles.detailLabel}>CVV Number:</Text>
+            <Text style={styles.detailText}>{cvvNumber}</Text>
+          </View>
+        )}
+
+        {selectedPaymentMethod === 'CreditCard' && expiryDate && (
+          <View style={styles.orderDetailItem}>
+            <Text style={styles.detailLabel}>Expiry Date:</Text>
+            <Text style={styles.detailText}>{formatExpiryDate(expiryDate)}</Text>
+          </View>
+        )}
+      </View>
 
       {/* Place Order Button */}
       <TouchableOpacity style={styles.placeOrderButton} onPress={handlePlaceOrder}>
         <Text style={styles.placeOrderButtonText}>Place Order</Text>
       </TouchableOpacity>
 
+      {/* Back Button */}
       <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
         <Text style={styles.backButtonText}>Back to Payment</Text>
       </TouchableOpacity>
@@ -94,16 +164,37 @@ const styles = StyleSheet.create({
     padding: 30,
     backgroundColor: '#f5f5f5',
   },
+  header: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 20,
+  },
   headerText: {
     fontSize: 24,
     fontWeight: 'bold',
     color: '#333',
+  },
+  orderDetailsContainer: {
+    backgroundColor: '#fff',
+    borderRadius: 10,
+    padding: 20,
     marginBottom: 20,
   },
   sectionTitle: {
     fontSize: 20,
     fontWeight: 'bold',
-    marginTop: 10,
+    marginBottom: 10,
+  },
+  orderDetailItem: {
+    marginBottom: 15,
+  },
+  detailLabel: {
+    fontWeight: 'bold',
+    color: '#555',
+  },
+  detailText: {
+    marginTop: 5,
+    color: '#333',
   },
   placeOrderButton: {
     backgroundColor: '#4caf50',
@@ -132,3 +223,4 @@ const styles = StyleSheet.create({
 });
 
 export default OrderPlacingScreen;
+

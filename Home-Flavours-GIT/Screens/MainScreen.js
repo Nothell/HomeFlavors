@@ -2,7 +2,6 @@ import React from 'react';
 import { Text, View, Image, StyleSheet, TouchableOpacity } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import MyAccountScreen from './MyAccountScreen';
-import MyCartScreen from "./MyCartScreen";
 import { Entypo, Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import CategoryCarousel from '../Components/CategoryCarousel';
 import HeaderComponent from '../Components/HeaderComponent';

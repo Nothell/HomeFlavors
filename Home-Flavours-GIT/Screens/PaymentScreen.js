@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Image, TextInput, LayoutAnimation, Platform, UIManager } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Image, TextInput, LayoutAnimation, Platform, UIManager, TouchableWithoutFeedback,Keyboard } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { updateDoc, doc } from 'firebase/firestore';
 import { db } from '../firebaseConfig';
@@ -17,7 +17,7 @@ const PaymentScreen = () => {
     updatedTotalAmount,
     shippingCost,
   } = route.params;
-  console.log("HEREEE",route.params)
+
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState('');
   const [cardNumber, setCardNumber] = useState('');
   const [cvvNumber, setCVVNumber] = useState('');
@@ -26,14 +26,11 @@ const PaymentScreen = () => {
   const [cardFieldsPosition, setCardFieldsPosition] = useState('relative');
 
   useEffect(() => {
-    // Add a smooth animation when card fields appear
     LayoutAnimation.easeInEaseOut();
   }, [cardFieldsVisible]);
 
   const handlePayment = async () => {
     try {
-      console.log("TOTAL AMOUNT2", updatedTotalAmount)
-    console.log("SSSS2", selectedShippingMethod)
       const orderPlacingData = {
         shippingAddress,
         selectedShippingMethod,
@@ -64,32 +61,68 @@ const PaymentScreen = () => {
             style={[styles.input, (selectedPaymentMethod === 'DebitCard' || selectedPaymentMethod === 'CreditCard') && styles.highlighted]}
             placeholder="Card Number"
             value={cardNumber}
-            onChangeText={(text) => setCardNumber(text)}
+            onChangeText={(text) => {
+              // Remove non-numeric characters
+              const numericText = text.replace(/\D/g, '');
+  
+              // Format the card number
+              const formattedText = numericText.replace(/(\d{4})/g, '$1 ').trim();
+  
+              // Set the state with the formatted text
+              setCardNumber(formattedText);
+            }}
+            keyboardType="numeric"
+            maxLength={19} // Allow only 16 digits and 3 spaces
           />
           <TextInput
             style={[styles.input, (selectedPaymentMethod === 'DebitCard' || selectedPaymentMethod === 'CreditCard') && styles.highlighted]}
             placeholder="CVV Number"
             value={cvvNumber}
-            onChangeText={(text) => setCVVNumber(text)}
+            onChangeText={(text) => {
+              // Remove non-numeric characters
+              const numericText = text.replace(/\D/g, '');
+  
+              // Set the state with the numeric text and limit to 3 characters
+              setCVVNumber(numericText.slice(0, 3));
+            }}
+            keyboardType="numeric"
+            maxLength={3} // Allow only 3 digits
           />
           <TextInput
             style={[styles.input, (selectedPaymentMethod === 'DebitCard' || selectedPaymentMethod === 'CreditCard') && styles.highlighted]}
-            placeholder="Expiry Date"
+            placeholder="Expiry Date (MM/YY)"
             value={expiryDate}
-            onChangeText={(text) => setExpiryDate(text)}
+            onChangeText={(text) => {
+              // Remove non-numeric characters
+              const numericText = text.replace(/\D/g, '');
+  
+              // Format the expiry date
+              const formattedText = numericText.replace(/(\d{2})(\d{0,4})/, '$1/$2').trim();
+  
+              // Set the state with the formatted text
+              setExpiryDate(formattedText);
+            }}
+            keyboardType="numeric"
+            maxLength={5} // Allow only 4 digits and 1 slash
           />
         </View>
       );
     }
     return null;
   };
+  
 
   return (
-    <View style={styles.container}>
-      {/* Header */}
-      {/* Add your logo and header text here */}
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+      <View style={styles.container}>
+      <Image
+        source={require('../assets/logo.png')}
+        style={styles.logo}
+        resizeMode="contain"
+      />
 
-      {/* Payment Options */}
+      <Text style={styles.headerText}>Select Payment Method</Text>
+
       <TouchableOpacity
         style={[styles.paymentOption, selectedPaymentMethod === 'CashOnDelivery' && styles.highlighted]}
         onPress={() => {
@@ -120,30 +153,41 @@ const PaymentScreen = () => {
         <Text style={styles.paymentOptionText}>Credit Card</Text>
       </TouchableOpacity>
 
-      {/* Card Fields */}
       {cardFieldsVisible && renderCardFields()}
 
-      {/* Proceed to Payment Button */}
       <TouchableOpacity style={styles.nextButton} onPress={handlePayment} disabled={!selectedPaymentMethod}>
         <Text style={styles.nextButtonText}>Proceed to Payment (${updatedTotalAmount})</Text>
       </TouchableOpacity>
+
       <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
         <Text style={styles.backButtonText}>Back to Shipping</Text>
       </TouchableOpacity>
     </View>
+    </TouchableWithoutFeedback>
+    
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 70,
-    backgroundColor: '#f5f5f5',
+    padding: 20,
+    backgroundColor: '#fff',
     alignItems: 'center',
-    marginTop:100
+  },
+  headerText: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    color: '#333',
+    marginBottom: 20,
+  },
+  logo: {
+    height: 80,
+    width: 80,
+    marginBottom: 20,
   },
   highlighted: {
-    borderColor: 'blue', // Change the color as per your preference
+    borderColor: '#4caf50',
     borderWidth: 2,
   },
   paymentOption: {
@@ -152,12 +196,14 @@ const styles = StyleSheet.create({
     padding: 20,
     marginBottom: 20,
     alignItems: 'center',
+    width: '100%',
   },
   paymentOptionText: {
     fontSize: 18,
+    textAlign: 'center',
   },
   input: {
-    height: 60, // Increased height for a bigger input field
+    height: 40,
     borderColor: '#ccc',
     borderWidth: 1,
     marginBottom: 16,
@@ -172,6 +218,7 @@ const styles = StyleSheet.create({
     padding: 15,
     alignItems: 'center',
     marginTop: 20,
+    width: '100%',
   },
   nextButtonText: {
     color: '#fff',
@@ -184,11 +231,12 @@ const styles = StyleSheet.create({
     padding: 15,
     alignItems: 'center',
     marginTop: 20,
+    width: '100%',
   },
   backButtonText: {
     color: '#000',
     fontSize: 18,
-    fontWeight: 'bold'
+    fontWeight: 'bold',
   },
 });
 

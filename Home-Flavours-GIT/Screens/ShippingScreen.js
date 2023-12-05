@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, TextInput, TouchableOpacity, Image } from 'react-native';
+import { View, Text, StyleSheet, TextInput, TouchableOpacity, Image, Modal, Pressable } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { db, auth } from '../firebaseConfig';
 import { doc, getDoc, updateDoc, addDoc, collection } from 'firebase/firestore';
@@ -16,6 +16,8 @@ const ShippingScreen = () => {
   const [selectedShippingMethod, setSelectedShippingMethod] = useState('');
   const route = useRoute();
   const { cartItems,totalAmount } = route.params;
+  const [modalVisible, setModalVisible] = useState(false);
+
 
   useEffect(() => {
     // Fetch user profile data and populate the form
@@ -66,7 +68,8 @@ const ShippingScreen = () => {
       });
 
       if (!selectedShippingMethod) {
-        console.error('Please select a shipping method');
+        // Display the modal if a shipping method is not selected
+        setModalVisible(true);
         return;
       }
 
@@ -112,10 +115,21 @@ const ShippingScreen = () => {
     }
   };
 
+  const closeModal = () => {
+    // Close the modal
+    setModalVisible(false);
+  };
+
   return (
     <View style={styles.container}>
-    {/* Add Shipping Methods */}
-    <TouchableOpacity
+
+    <Image
+        source={require('../assets/logo.jpg')}
+        style={{ height: 80, width: 80, marginBottom: 20 }}
+        resizeMode="contain"
+      />
+      <Text style={styles.headerText}>Shipping Details</Text>
+      <TouchableOpacity
         style={[styles.shippingMethod, selectedShippingMethod === 'Express' && styles.highlighted]}
         onPress={() => setSelectedShippingMethod('Express')}
       >
@@ -135,24 +149,25 @@ const ShippingScreen = () => {
       >
         <Text style={styles.shippingMethodText}>Same Day Delivery (+$50)</Text>
       </TouchableOpacity>
-      <Image
-        source={require('../assets/logo.jpg')}
-        style={{ height: 50, width: 50, marginBottom: 10 }}
-        resizeMode="contain"
-      />
-      <Text style={styles.headerText}>Shipping Information</Text>
+
+      
+
+      
+
       <TextInput
         style={styles.input}
         placeholder="Street Name"
         value={streetName}
         onChangeText={(text) => setStreetName(text)}
       />
+
       <TextInput
         style={styles.input}
         placeholder="City"
         value={city}
         onChangeText={(text) => setCity(text)}
       />
+
       <TextInput
         style={styles.input}
         placeholder="Pincode"
@@ -160,12 +175,14 @@ const ShippingScreen = () => {
         onChangeText={(text) => setPincode(text)}
         keyboardType="numeric"
       />
+
       <TextInput
         style={styles.input}
         placeholder="Country"
         value={country}
         onChangeText={(text) => setCountry(text)}
       />
+
       <TextInput
         style={styles.input}
         placeholder="Phone Number"
@@ -173,9 +190,26 @@ const ShippingScreen = () => {
         onChangeText={(text) => setPhoneNo(text)}
         keyboardType="phone-pad"
       />
+
       <TouchableOpacity style={styles.nextButton} onPress={handleNavigateToPayment}>
         <Text style={styles.nextButtonText}>Next: Payment</Text>
       </TouchableOpacity>
+
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={closeModal}
+      >
+        <View style={styles.modalContainer}>
+          <View style={styles.modalContent}>
+            <Text style={styles.modalText}>Please select a shipping method.</Text>
+            <Pressable style={styles.closeButton} onPress={closeModal}>
+              <Text style={styles.closeButtonText}>Close</Text>
+            </Pressable>
+          </View>
+        </View>
+      </Modal>
     </View>
   );
 };
@@ -183,7 +217,7 @@ const ShippingScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 30,
+    padding: 20,
     backgroundColor: '#f5f5f5',
   },
   headerText: {
@@ -191,6 +225,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: '#333',
     marginBottom: 20,
+    textAlign: 'center',
   },
   input: {
     height: 40,
@@ -222,7 +257,40 @@ const styles = StyleSheet.create({
   },
   shippingMethodText: {
     fontSize: 18,
+    marginBottom: 10,
+  },
+  highlighted: {
+    borderWidth: 2,
+    borderColor: '#4caf50',
+  },
+  modalContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+  },
+  modalContent: {
+    backgroundColor: '#fff',
+    borderRadius: 10,
+    padding: 20,
+    alignItems: 'center',
+  },
+  modalText: {
+    fontSize: 18,
+    marginBottom: 20,
+  },
+  closeButton: {
+    backgroundColor: '#4caf50',
+    borderRadius: 10,
+    padding: 15,
+    alignItems: 'center',
+  },
+  closeButtonText: {
+    color: '#fff',
+    fontSize: 18,
+    fontWeight: 'bold',
   },
 });
 
 export default ShippingScreen;
+
