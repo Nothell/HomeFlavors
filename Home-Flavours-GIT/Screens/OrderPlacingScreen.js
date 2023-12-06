@@ -1,7 +1,9 @@
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Alert, Image } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Alert, Image, FlatList, ScrollView } from 'react-native';
 import { doc, collection, addDoc, query, where, getDocs, deleteDoc } from 'firebase/firestore';
 import { db, auth } from '../firebaseConfig';
+import { useState, useEffect } from 'react';
+
 
 const OrderPlacingScreen = ({ route, navigation }) => {
   const {
@@ -14,6 +16,34 @@ const OrderPlacingScreen = ({ route, navigation }) => {
     cvvNumber,
     expiryDate,
   } = route.params;
+
+
+  const [cartItems, setCartItems] = useState([]);
+
+  useEffect(() => {
+    const fetchCartItems = async () => {
+      try {
+        const user = auth.currentUser;
+        if (user) {
+          const cartRef = collection(db, 'carts');
+          const cartQuery = query(cartRef, where('userId', '==', user.uid));
+          const cartDocs = await getDocs(cartQuery);
+
+          const items = [];
+          cartDocs.forEach((cartItem) => {
+            const data = cartItem.data();
+            items.push(data);
+          });
+
+          setCartItems(items);
+        }
+      } catch (error) {
+        console.error('Error fetching cart items: ', error.message);
+      }
+    };
+
+    fetchCartItems();
+  }, []);
 
   const handlePlaceOrder = async () => {
     try {
@@ -86,8 +116,34 @@ const OrderPlacingScreen = ({ route, navigation }) => {
     return formattedExpiryDate;
   };
 
+  const renderItem = ({ item }) => (
+    <View style={styles.cartItem}>
+      <View style={styles.cartItemRow}>
+        <Text style={styles.cartItemLabel}>Name:</Text>
+        <Text style={styles.cartItemValue}>{item.productName}</Text>
+      </View>
+      <View style={styles.cartItemRow}>
+        <Text style={styles.cartItemLabel}>Unit Price:</Text>
+        <Text style={styles.cartItemValue}>${item.price}</Text>
+      </View>
+      <View style={styles.cartItemRow}>
+        <Text style={styles.cartItemLabel}>Qty:</Text>
+        <Text style={styles.cartItemValue}>{item.qty}</Text>
+      </View>
+      <View style={styles.cartItemRow}>
+        <Text style={styles.cartItemLabel}>Subtotal:</Text>
+        <Text style={styles.cartItemValue}>${item.price*item.qty}</Text>
+      </View>
+    </View>
+  );
+
   return (
     <View style={styles.container}>
+        <ScrollView
+        contentContainerStyle={{ flexGrow: 1, justifyContent: 'space-between' }}
+        style={{ flex: 1 }}
+        showsVerticalScrollIndicator = {false}
+      >
       {/* Header with Logo */}
       <View style={styles.header}>
         <Image
@@ -116,12 +172,23 @@ const OrderPlacingScreen = ({ route, navigation }) => {
           </View>
         )}
 
+        {/* Cart Items */}
+        <View style={styles.cartItemsContainer}>
+          <Text style={styles.cartItemsTitle}>Items:</Text>
+          <FlatList
+            data={cartItems}
+            renderItem={renderItem}
+            keyExtractor={(item) => item.productId}
+          />
+        </View>
+
         {updatedTotalAmount && (
           <View style={styles.orderDetailItem}>
             <Text style={styles.detailLabel}>Total Amount:</Text>
             <Text style={styles.detailText}>${updatedTotalAmount}</Text>
           </View>
         )}
+
 
         {selectedPaymentMethod && (
           <View style={styles.orderDetailItem}>
@@ -161,7 +228,9 @@ const OrderPlacingScreen = ({ route, navigation }) => {
       <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
         <Text style={styles.backButtonText}>Back to Payment</Text>
       </TouchableOpacity>
+    </ScrollView>
     </View>
+    
   );
 };
 
@@ -170,6 +239,7 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 30,
     backgroundColor: '#f5f5f5',
+    justifyContent: 'flex-end',
   },
   header: {
     flexDirection: 'row',
@@ -185,7 +255,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     borderRadius: 10,
     padding: 20,
-    marginBottom: 20,
+    marginBottom: 5,
   },
   sectionTitle: {
     fontSize: 20,
@@ -193,7 +263,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   orderDetailItem: {
-    marginBottom: 15,
+    marginBottom: 7,
   },
   detailLabel: {
     fontWeight: 'bold',
@@ -227,7 +297,28 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
   },
+  cartItemsTitle: {
+    fontWeight: 'bold',
+    color: '#555',
+  },
+  cartItem: {
+    marginBottom: 15,
+    padding: 10,
+    backgroundColor: '#f0f0f0',
+    borderRadius: 5,
+  },
+  cartItemRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginBottom: 5,
+  },
+  cartItemLabel: {
+    fontWeight: 'bold',
+    color: '#555',
+  },
+  cartItemValue: {
+    color: '#333',
+  },
 });
 
 export default OrderPlacingScreen;
-
