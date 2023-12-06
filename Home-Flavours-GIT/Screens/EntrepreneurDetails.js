@@ -1,23 +1,31 @@
 // EntrepreneurDetails.js
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, Alert, StyleSheet, ScrollView } from 'react-native';
+import { View, Text, Switch, TextInput, TouchableOpacity, Alert, StyleSheet, ScrollView } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import { addDoc, updateDoc, collection, doc, getDocs } from 'firebase/firestore';
-import { db } from '../Firebase/FirebaseConfig';
+import { db, auth } from '../Firebase/FirebaseConfig';
 
 const EntrepreneurDetails = () => {
   const [category, setCategory] = useState('');
   const [description, setDescription] = useState('');
   const [id, setId] = useState('');
   const [image, setImage] = useState('');
-  const [isPopular, setIsPopular] = useState('');
+  const [isPopular, setIsPopular] = useState(false);
   const [name, setName] = useState('');
   const [price, setPrice] = useState('');
 
   const categoryData = ['Indian', 'Breakfast and Brunch', 'Greek', 'Korean', 'Desserts', 'Mexican', 'Healthy', 'Ramen', 'Burritos', 'Coffee and Tea'];
 
   const saveDishProduct = async () => {
+
     try {
+      const user = auth.currentUser;
+
+      if (!user) {
+        console.error('User not logged in');
+        return;
+      }
+
       const dishData = {
         category,
         description,
@@ -25,6 +33,7 @@ const EntrepreneurDetails = () => {
         isPopular,
         name,
         price,
+        entrepreneurId: user.uid
       };
 
       if (id) {
@@ -75,7 +84,7 @@ const EntrepreneurDetails = () => {
           multiline
         />
 
-        
+
 
         <TextInput
           label="Image URL"
@@ -84,14 +93,15 @@ const EntrepreneurDetails = () => {
           onChangeText={setImage}
           style={styles.input}
         />
-
-        <TextInput
-          label="Is Popular"
-          placeholder="Enter popularity status"
-          value={isPopular}
-          onChangeText={setIsPopular}
-          style={styles.input}
-        />
+        <View style={styles.switchContainer}>
+          <Text style={styles.switchLabel}>Is Popular</Text>
+          <Switch
+            value={isPopular}
+            onValueChange={(value) => setIsPopular(value)}
+            trackColor={{ false: '#767577', true: '#81b0ff' }}
+            thumbColor={isPopular ? '#f5dd4b' : '#f4f3f4'}
+          />
+        </View>
 
         <TextInput
           label="Name"
@@ -138,10 +148,21 @@ const styles = StyleSheet.create({
   },
   input: {
     marginBottom: 16,
-    backgroundColor: '#e0e0e0',
+    backgroundColor: '#fff',
     paddingHorizontal: 12,
     paddingVertical: 8,
+    borderWidth: 1,
+    borderColor: '#ccc',
     borderRadius: 5,
+  },
+  switchContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 16,
+  },
+  switchLabel: {
+    fontSize: 18,
+    marginRight: 16,
   },
   button: {
     alignItems: 'center',

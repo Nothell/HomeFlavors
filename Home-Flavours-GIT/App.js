@@ -34,30 +34,30 @@ export default function App() {
 
   return (
     <View style={styles.container}>
-    {isAppReady ? (
-      <NavigationContainer>
-      <Stack.Navigator initialRouteName="Onboarding">
-          <Stack.Screen name="Onboarding" component={OnboardingScreen} options={{ headerShown: false }}/>
-          <Stack.Screen name="SignUp" component={SignUpScreen} options={{ headerShown: false }}/>
-          <Stack.Screen name="SignIn" component={SignInScreen} options={{ headerShown: false }}/>
-          <Stack.Screen name="Entrepreneur" component={EntrepreneurScreen} options={{ headerShown: false }}/>
-          <Stack.Screen name = "EntrepreneurDetails" component={EntrepreneurDetails} options={{headerShown : false}}/>
-          <Stack.Screen name = "EntrepreneurMain" component={EntrepreneurMain} options={{headerShown : false}}/>
-          <Stack.Screen name="Main" component={MainScreen} options={{ headerShown: false }}/>
-          <Stack.Screen name="Category" component={DishCategoryCarousel} />
-          <Stack.Screen name="PDPScreen" component={PDPScreen} />
-        <Stack.Screen name="CartScreen" component={CartScreen} />
-        <Stack.Screen name="ShippingScreen" component={ShippingScreen} options={{ headerShown: false }} />
-        <Stack.Screen name="PaymentScreen" component={PaymentScreen} options={{ headerShown: false }} />
-        <Stack.Screen name="OrderPlacingScreen" component={OrderPlacingScreen} options={{ headerShown: false }} />
-        <Stack.Screen name="OrderConfScreen" component={OrderConfScreen} options={{ headerShown: false }} />
-        </Stack.Navigator>
-      </NavigationContainer>
-      
-    ) : (
-      <SplashScreen />
-    )}
-  </View>
+      {isAppReady ? (
+        <NavigationContainer>
+          <Stack.Navigator initialRouteName="Onboarding">
+            <Stack.Screen name="Onboarding" component={OnboardingScreen} options={{ headerShown: false }} />
+            <Stack.Screen name="SignUp" component={SignUpScreen} options={{ headerShown: false }} />
+            <Stack.Screen name="SignIn" component={SignInScreen} options={{ headerShown: false }} />
+            <Stack.Screen name="Entrepreneur" component={EntrepreneurScreen} options={{ headerShown: false }} />
+            <Stack.Screen name="EntrepreneurDetails" component={EntrepreneurDetails} options={{ headerShown: false }} />
+            <Stack.Screen name="EntrepreneurMain" component={EntrepreneurMain} options={{ headerShown: false }} />
+            <Stack.Screen name="Main" component={MainScreen} options={{ headerShown: false }} />
+            <Stack.Screen name="Category" component={DishCategoryCarousel} />
+            <Stack.Screen name="PDPScreen" component={PDPScreen} />
+            <Stack.Screen name="CartScreen" component={CartScreen} />
+            <Stack.Screen name="ShippingScreen" component={ShippingScreen} options={{ headerShown: false }} />
+            <Stack.Screen name="PaymentScreen" component={PaymentScreen} options={{ headerShown: false }} />
+            <Stack.Screen name="OrderPlacingScreen" component={OrderPlacingScreen} options={{ headerShown: false }} />
+            <Stack.Screen name="OrderConfScreen" component={OrderConfScreen} options={{ headerShown: false }} />
+          </Stack.Navigator>
+        </NavigationContainer>
+
+      ) : (
+        <SplashScreen />
+      )}
+    </View>
   );
 }
 
