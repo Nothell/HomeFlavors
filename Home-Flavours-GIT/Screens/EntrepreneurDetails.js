@@ -1,202 +1,159 @@
+// EntrepreneurDetails.js
 import React, { useState } from 'react';
-import { View, Text,Image, TextInput, TouchableOpacity, StyleSheet, Button, Alert, ScrollView } from 'react-native';
-import { signOut } from 'firebase/auth'
-import { db, auth } from '../Firebase/FirebaseConfig';
-import { doc , setDoc } from 'firebase/firestore';
+import { View, Text, TextInput, TouchableOpacity, Alert, StyleSheet, ScrollView } from 'react-native';
+import { Picker } from '@react-native-picker/picker';
+import { addDoc, updateDoc, collection, doc, getDocs } from 'firebase/firestore';
+import { db } from '../Firebase/FirebaseConfig';
 
+const EntrepreneurDetails = () => {
+  const [category, setCategory] = useState('');
+  const [description, setDescription] = useState('');
+  const [id, setId] = useState('');
+  const [image, setImage] = useState('');
+  const [isPopular, setIsPopular] = useState('');
+  const [name, setName] = useState('');
+  const [price, setPrice] = useState('');
 
-const EntrepreneurDetails = ({navigation}) => {
+  const categoryData = ['Indian', 'Breakfast and Brunch', 'Greek', 'Korean', 'Desserts', 'Mexican', 'Healthy', 'Ramen', 'Burritos', 'Coffee and Tea'];
 
-    const [businessName, setBusinessName] = useState('');
-    const [businessEmail, setBusinessEmail] = useState('');
-    const [BusinessPhoneNo, setBusinessPhoneNo] = useState('');
-    const [businessCity, setBusinessCity] = useState('');
-    const [businessCountry, setBusinessCountry] = useState('');
-    const [businessStreetName, setBusinessStreetName] = useState('');
-    const [businessPincode, setBusinessPinCode] = useState('');
-    const [businessImage, setBusinessImage] = useState(null);
+  const saveDishProduct = async () => {
+    try {
+      const dishData = {
+        category,
+        description,
+        image,
+        isPopular,
+        name,
+        price,
+      };
 
-    const handleLogout = async () => {
-      try {
-        if (auth.currentUser === null) {
-          alert("Logout Pressed: There is no user to logout !")
-        } else {
-          await signOut(auth)
-          navigation.navigate('SignIn')
-        }
-      } catch (err) {
-        console.log(err)
+      if (id) {
+        // Update the existing document
+        const dishDocRef = doc(db, 'products', id);
+        await updateDoc(dishDocRef, dishData);
+        Alert.alert('Success', 'Dish data updated successfully!');
+      } else {
+        // Save a new document with auto-generated ID
+        const dishCollectionRef = collection(db, 'products');
+        await addDoc(dishCollectionRef, dishData);
+        Alert.alert('Success', 'New dish data saved successfully!');
       }
-    };
 
-
-    const handleRegistration = async () => {
-      try {
-
-        const currentUser = auth.currentUser;
-
-        if (!currentUser) {
-          alert("User not authenticated");
-          return;
-        }
-
-        const resturantDetails = {
-          businessName:businessName,
-          businessEmail:businessEmail,
-          BusinessPhoneNo:BusinessPhoneNo,
-          businessCity:businessCity,
-          businessCountry:businessCountry,
-          businessStreetName:businessStreetName,
-          businessPincode:businessPincode
-        };
-
-        const docRef = doc(db, 'resturantDetails', currentUser.email);
-        await setDoc(docRef, resturantDetails);
-        // navigation.navigate('EntrepreneurDetails')
-        console.log('Document written with ID: ', docRef.id);
-    
-      } catch (error) {
-        console.error('Error adding document: ', error);
-      }
-    };
-
-    //   try {
-    //     const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
-    //   if (status !== 'granted') {
-    //     alert('Sorry, we need camera roll permissions to make this work!');
-    //     return;
-    //   }
-      
-    //     const result = await ImagePicker.launchImageLibraryAsync({
-    //       mediaTypes: ImagePicker.MediaTypeOptions.Images,
-    //       allowsEditing: true,
-    //       aspect: [4, 3],
-    //       quality: 1,
-    //     });
-    
-    //     if (!result.cancelled) {
-    //       // Set the selected image to the state
-    //       setBusinessImage(result.uri);
-    //     }
-    //   } catch (error) {
-    //     console.log('ImagePicker Error: ', error);
-    //   }
-    // };
-    
-
-    return (
-      <View style={styles.container}>
-        <View style={{alignItems: 'center', margin:80}}>
-          <Text style={{fontSize:20,fontStyle:"italic", textAlign:"center", marginVertical:20}}>Parter with us to expand your business</Text>
-        </View>
-
-
-
-        <ScrollView style={{ marginTop:-60}}>
-
-          <View style={{backgroundColor:"#e1e2e3",margin:10,borderRadius:10}}>
-    
-            <TextInput
-              style={styles.input}
-              placeholder="Business Name"
-              onChangeText={setBusinessName}
-              value={businessName}
-              autoCapitalize="none"
-            />
-          </View>
-
-          
-          <View style={{flexDirection:"row",backgroundColor:"#e1e2e3",margin:10,borderRadius:10}}>
-            <TextInput
-              style={styles.input}
-              placeholder="Email"
-              onChangeText={setBusinessEmail}
-              value={businessEmail}
-              keyboardType="email-address"
-              autoCapitalize="none"
-            />
-          </View>
-
-          <View style={{flexDirection:"row",backgroundColor:"#e1e2e3",margin:10,borderRadius:10}}>
-            <TextInput
-              style={styles.input}
-              placeholder="Phone No"
-              onChangeText={setBusinessPhoneNo}
-              value={BusinessPhoneNo}
-              keyboardType="numeric"
-            />
-          </View>
-
-          <View style={{flexDirection:"row",backgroundColor:"#e1e2e3",margin:10,borderRadius:10}}>
-            <TextInput
-              style={styles.input}
-              placeholder="Street Name"
-              onChangeText={setBusinessStreetName}
-              value={businessStreetName}
-            />
-          </View>
-
-          <View style={{flexDirection:"row"}}>
-          <View style={{backgroundColor:"#e1e2e3",margin:10,borderRadius:10, width:"45%"}}>
-            <TextInput
-              style={styles.input}
-              placeholder="City"
-              onChangeText={setBusinessCity}
-              value={businessCity}
-            />
-          </View>
-
-          <View style={{backgroundColor:"#e1e2e3",margin:10,borderRadius:10,  width:"45%"}}>
-            <TextInput
-              style={styles.input}
-              placeholder="Country"
-              onChangeText={setBusinessCountry}
-              value={businessCountry}
-            />
-          </View>
-          </View>
-          
-          <View style={{flexDirection:"row",backgroundColor:"#e1e2e3",margin:10,borderRadius:10}}>
-            <TextInput
-              style={styles.input}
-              placeholder="Pincode"
-              onChangeText={setBusinessPinCode}
-              value={businessPincode}
-            />
-          </View>
-
-        </ScrollView>
-
-        {/* <View style={{flexDirection:"row", justifyContent:"space-evenly",width:"100%",margin:60}}>
-            <TouchableOpacity onPress={handleRegistration} style={{ alignItems: "center",borderWidth:2,borderColor: "#ea584f", 
-            borderRadius: 5, marginVertical: 20, width: "40%", height: 40, justifyContent: 'center' , backgroundColor:"white"}} >
-              <Text style={{ color: '#ea584f', fontSize: 20 }}>Register</Text>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={handleLogout} style={{ alignItems: "center", backgroundColor: "#ea584f", 
-          borderRadius: 5, marginVertical: 20, width: "40%", height: 40, justifyContent: 'center' }}>
-            <Text style={{ color: 'white', fontSize: 20 }}>Logout</Text>
-          </TouchableOpacity>
-        </View> */}
-      </View>
-    );
+      // Clear all fields
+      setCategory('');
+      setDescription('');
+      setId('');
+      setImage('');
+      setIsPopular('');
+      setName('');
+      setPrice('');
+    } catch (error) {
+      console.error('Error saving dish data:', error);
+      Alert.alert('Error', 'An error occurred while saving dish data.');
+    }
   };
+
+  return (
+    <ScrollView contentContainerStyle={styles.container}>
+      <View style={styles.innerContainer}>
+        <Picker
+          selectedValue={category}
+          onValueChange={(itemValue, itemIndex) => setCategory(itemValue)}
+          style={styles.picker}
+        >
+          {categoryData.map((cat, index) => (
+            <Picker.Item key={index} label={cat} value={cat} />
+          ))}
+        </Picker>
+
+        <TextInput
+          label="Description"
+          placeholder="Enter description"
+          value={description}
+          onChangeText={setDescription}
+          style={styles.input}
+          multiline
+        />
+
+        
+
+        <TextInput
+          label="Image URL"
+          placeholder="Enter image URL"
+          value={image}
+          onChangeText={setImage}
+          style={styles.input}
+        />
+
+        <TextInput
+          label="Is Popular"
+          placeholder="Enter popularity status"
+          value={isPopular}
+          onChangeText={setIsPopular}
+          style={styles.input}
+        />
+
+        <TextInput
+          label="Name"
+          placeholder="Enter name"
+          value={name}
+          onChangeText={setName}
+          style={styles.input}
+        />
+
+        <TextInput
+          label="Price"
+          placeholder="Enter price"
+          value={price}
+          onChangeText={setPrice}
+          style={styles.input}
+          keyboardType="numeric"
+        />
+
+        <TouchableOpacity onPress={saveDishProduct} style={styles.button}>
+          <Text style={styles.buttonText}>Save Dish</Text>
+        </TouchableOpacity>
+      </View>
+    </ScrollView>
+  );
+};
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
     padding: 16,
+    backgroundColor: '#f7f7f7',
+  },
+  innerContainer: {
+    backgroundColor: '#fff',
+    padding: 10,
+    borderRadius: 10,
+    elevation: 2,
+  },
+  picker: {
+    marginBottom: 10,
+    backgroundColor: '#e0e0e0',
+    borderRadius: 5,
+    padding: 2,
   },
   input: {
-    fontSize:20,
-    width:"90%",
-    padding:10
+    marginBottom: 16,
+    backgroundColor: '#e0e0e0',
+    paddingHorizontal: 12,
+    paddingVertical: 8,
+    borderRadius: 5,
   },
-  forgotPasswordText: {
-    color: "#007BFF",
-    fontSize: 16,
-    marginTop: 10,
-  }
+  button: {
+    alignItems: 'center',
+    backgroundColor: '#ea584f',
+    borderRadius: 5,
+    marginVertical: 20,
+    paddingVertical: 12,
+  },
+  buttonText: {
+    color: 'white',
+    fontSize: 20,
+  },
 });
 
 export default EntrepreneurDetails;
