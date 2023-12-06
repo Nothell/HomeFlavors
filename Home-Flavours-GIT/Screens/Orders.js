@@ -39,6 +39,10 @@ const OrdersScreen = () => {
     return () => clearInterval(intervalId);
   }, []);
 
+  const formatAddress = (address) => {
+    const { streetName, city, pincode, country, phoneNo } = address;
+    return `${streetName}, ${city}, ${pincode}, ${country}\nPhone: ${phoneNo}`;
+};
   return (
     <View>
       {/* <ScrollView style={styles.container}> */}
@@ -48,9 +52,10 @@ const OrdersScreen = () => {
           keyExtractor={(item) => item.id}
           renderItem={({ item }) => (
             <View style={styles.productItem}>
-              <Text style={styles.productName}>{`Date: ${item.orderDate}`}</Text>
+              <Text style={styles.productName}>
+              {`Date: ${item.orderDate.toDate().toLocaleString()}`}</Text>
               <Text style={styles.productPrice}>{`Amount: ${item.updatedTotalAmount}`}</Text>
-              <Text style={styles.productPrice}>{`Address: $${item.shippingAddress}`}</Text>
+              <Text style={styles.productPrice}>{`Address: $${formatAddress(item.shippingAddress)}`}</Text>
               {/* Add other product details as needed */}
             </View>
           )}
