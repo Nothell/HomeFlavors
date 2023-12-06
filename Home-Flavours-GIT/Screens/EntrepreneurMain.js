@@ -1,7 +1,7 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import EntrepreneurScreen from './EntrepreneurScreen';
-import EntrepreneurDetails from './EntrepreneurDetails';
+import EntrepreneurCustomTab from '../Components/EntrepreneurCustomTab'
 import { Ionicons } from '@expo/vector-icons';
 import { AntDesign } from '@expo/vector-icons';
 import { useState, useEffect } from 'react';
@@ -51,7 +51,7 @@ const EntrepreneurMain = () => {
   return (
     <Tab.Navigator>
         <Tab.Screen
-        name="EntrepreneurScreen"
+        name="Bussiness Details"
         component={EntrepreneurScreen}
         options={{
           tabBarIcon: ({color}) => (
@@ -61,8 +61,8 @@ const EntrepreneurMain = () => {
         }}
         />
         <Tab.Screen
-        name="EntrepreneurDetails"
-        component={EntrepreneurDetails}
+        name="Entrepreneur Details"
+        component={EntrepreneurCustomTab}
         options={{
           tabBarIcon: ({color}) => (
             <AntDesign name="menuunfold" size={24} color="black" />
