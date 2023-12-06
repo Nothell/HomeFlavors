@@ -2,6 +2,11 @@
   "build": {
     "production": {
       "node": "16.13.0",
+      "android": {
+        "releaseChannel": "default", 
+        "gradleCommand": ":app:bundleRelease",
+        "env": {}
+      },
       "env": {}
     },
     "preview": {
