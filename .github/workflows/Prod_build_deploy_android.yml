@@ -72,7 +72,7 @@ jobs:
             
             # Download the APK file
             echo "Downloading APK..."
-            wget $android_link -O app-debug.apk
+            wget $android_link -O app-release.aab
             
             # Upload the APK to App Center
             echo "Uploading to App Center..."
@@ -80,4 +80,4 @@ jobs:
             appcenter login --token f5af3da87aea380656d92e1f0412acbfc5a3f059 --quiet
             
             # Assuming you have an environment variable for the owner and app name in App Center
-            appcenter distribute release -f app-debug.apk -g Collaborators --app G8-HomeFlavours/HomeFlavours
+            appcenter distribute release -f app-release.aab -g Collaborators --app G8-HomeFlavours/HomeFlavours
