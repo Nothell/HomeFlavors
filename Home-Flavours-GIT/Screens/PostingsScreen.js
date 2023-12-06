@@ -30,6 +30,10 @@ const PostingsScreen = () => {
         };
 
         fetchProducts();
+        const intervalId = setInterval(fetchProducts, 10000);
+
+        // Cleanup function to clear the interval when the component unmounts
+        return () => clearInterval(intervalId);
     }, []);
 
     return (
