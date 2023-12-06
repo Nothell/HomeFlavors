@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import MapView, { Marker, Polyline } from 'react-native-maps';
 import axios from 'axios';
@@ -15,6 +15,13 @@ const OrderConfScreen = ({ route }) => {
   const [entrepreneurLocation, setEntrepreneurLocation] = useState(null);
   const [userCord, setUserCord] = useState(null);
   const [polylineCoordinates, setPolylineCoordinates] = useState([]);
+  const [mapRegion, setMapRegion] = useState({
+    latitude: 44.3326,
+    longitude: -79.5891,
+    latitudeDelta: 0.01,
+    longitudeDelta: 0.01,
+  });
+  const mapRef = useRef(null);
 
   const goBackToMain = async () => {
     try {
@@ -87,6 +94,20 @@ const OrderConfScreen = ({ route }) => {
         setEstDelivery(deliveryTime);
         console.log('Estimated Delivery Time:', deliveryTime);
 
+        if (mapRef.current) {
+          mapRef.current.animateToRegion({
+            latitude: userCoordinates.latitude,
+            longitude: userCoordinates.longitude,
+            latitudeDelta: 0.01,
+            longitudeDelta: 0.01,
+          });
+          setMapRegion({
+            ...userCoordinates,
+            latitudeDelta: 0.01,
+            longitudeDelta: 0.01,
+          });
+        }
+
       } catch (error) {
         console.error('Error setting coordinates: ', error.message);
       }
@@ -140,13 +161,9 @@ const OrderConfScreen = ({ route }) => {
 
       {/* Map with User Location and Entrepreneur Location */}
       <MapView
+        ref = {mapRef}
         style={styles.map}
-        region={{
-          latitude: 44.3326,
-          longitude: -79.5891,
-          latitudeDelta: 0.01,
-          longitudeDelta: 0.01,
-        }}
+        region={mapRegion}
       >
         {userCord && <Marker coordinate={userCord} title="Delivery Location" />}
         {entrepreneurLocation && (

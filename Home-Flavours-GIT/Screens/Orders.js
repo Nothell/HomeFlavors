@@ -34,6 +34,11 @@ const OrdersScreen = () => {
         fetchOrders();
     }, []);
 
+    const formatAddress = (address) => {
+        const { streetName, city, pincode, country, phoneNo } = address;
+        return `${streetName}, ${city}, ${pincode}, ${country}\nPhone: ${phoneNo}`;
+    };
+
     return (
         <ScrollView style={styles.container}>
             <Text style={styles.header}>Your Previous Orders</Text>
@@ -42,15 +47,16 @@ const OrdersScreen = () => {
                 keyExtractor={(item) => item.id}
                 renderItem={({ item }) => (
                     <View style={styles.productItem}>
-                        <Text style={styles.productName}>{`Date: ${item.orderDate}`}</Text>
+                        <Text style={styles.productName}>{`Date: ${item.orderDate.toDate().toLocaleString()}`}</Text>
                         <Text style={styles.productPrice}>{`Amount: ${item.updatedTotalAmount}`}</Text>
-                        <Text style={styles.productPrice}>{`Address: $${item.shippingAddress}`}</Text>
-                        {/* Add other product details as needed */}
+                        <Text style={styles.productPrice}>{`Address: $${formatAddress(item.shippingAddress)}`}</Text>
                     </View>
                 )}
             />
         </ScrollView>
     );
+
+   
 };
 
 const styles = StyleSheet.create({
