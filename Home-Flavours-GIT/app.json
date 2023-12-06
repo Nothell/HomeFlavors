@@ -17,17 +17,29 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.gbcgrouphf.homeflavors",
-      "permissions": ["PHOTO_LIBRARY"]
+      "permissions": [
+        "PHOTO_LIBRARY"
+      ]
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff",
-        "permissions": ["CAMERA_ROLL", "READ_EXTERNAL_STORAGE", "WRITE_EXTERNAL_STORAGE"]
-      }
+        "permissions": [
+          "CAMERA_ROLL",
+          "READ_EXTERNAL_STORAGE",
+          "WRITE_EXTERNAL_STORAGE"
+        ]
+      },
+      "package": "com.gbcgrouphf.homeflavors"
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "921073c6-3d8b-47d2-bc2b-a3d3d3539664"
+      }
     }
   }
 }
