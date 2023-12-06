@@ -3,6 +3,7 @@ import { View, Text, Image, TextInput, TouchableOpacity, StyleSheet, Button, Ale
 import { signOut } from 'firebase/auth'
 import { db, auth } from '../Firebase/FirebaseConfig';
 import { doc, setDoc } from 'firebase/firestore';
+import AppBackground from '../Components/AppBackground';
 // import * as ImagePicker from 'expo-image-picker';
 
 
@@ -67,6 +68,7 @@ const EntrepreneurScreen = ({ navigation }) => {
 
 
   return (
+    <AppBackground>
     <View style={styles.container}>
       <View style={{ alignItems: 'center', margin: 30 }}>
         <Text style={{ fontSize: 18, fontStyle: "italic", textAlign: "center", marginVertical: 20 }}>Parter with us to expand your business</Text>
@@ -163,6 +165,7 @@ const EntrepreneurScreen = ({ navigation }) => {
         </TouchableOpacity>
       </View>
     </View>
+    </AppBackground>
   );
 };
 

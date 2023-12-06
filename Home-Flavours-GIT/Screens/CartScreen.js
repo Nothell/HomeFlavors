@@ -4,6 +4,7 @@ import { useNavigation } from '@react-navigation/native';
 import { db, auth } from '../firebaseConfig';
 import { doc, collection, query, where, getDocs, updateDoc, deleteDoc } from 'firebase/firestore';
 import { useFocusEffect } from '@react-navigation/native';
+import AppBackground from '../Components/AppBackground';
 
 export default function CartScreen() {
   const navigation = useNavigation();
@@ -170,6 +171,7 @@ export default function CartScreen() {
   );
 
   return (
+    <AppBackground>
     <View style={styles.container}>
       <Text style={styles.headerText}>My Cart</Text>
       <FlatList
@@ -192,6 +194,7 @@ export default function CartScreen() {
         <Text style={styles.checkoutButtonText}>Checkout</Text>
       </TouchableOpacity>
     </View>
+    </AppBackground>
   );
 }
 
@@ -199,7 +202,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
-    backgroundColor: '#f5f5f5',
   },
   cartItemContainer: {
     backgroundColor: 'white',

@@ -91,7 +91,7 @@ const OrderPlacingScreen = ({ route, navigation }) => {
       {/* Header with Logo */}
       <View style={styles.header}>
         <Image
-          source={require('../assets/logo.jpg')}
+          source={require('../assets/logo.png')}
           style={{ height: 50, width: 50, marginRight: 10 }}
           resizeMode="contain"
         />

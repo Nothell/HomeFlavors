@@ -11,7 +11,7 @@ const SignUpComponent = ({navigation}) => {
         <View style={{backgroundColor:"#4588f0", borderRadius:10, marginVertical:50, width:"50%", height:50, justifyContent: 'center'}}>
           <Button title='SIGN UP' color="white" onPress={() => navigation.navigate('SignUp')}/>
         </View>
-        <Image style={{marginBottom:"100%",height:50,width:50}} source={require('../assets/logo.jpg')} resizeMode="contain" />
+        <Image style={{marginBottom:"100%",height:50,width:50}} source={require('../assets/logo.png')} resizeMode="contain" />
     </View>
   );
 };

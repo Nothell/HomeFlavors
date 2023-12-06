@@ -55,7 +55,7 @@ const SignInScreen = ({navigation}) => {
       <AppBackground>
       <View style={styles.container}>
         <View style={{alignItems: 'center', margin:100}}>
-          <Image style={{height:100,width:100}} source={require('../assets/logo.jpg')} resizeMode="contain" />
+          <Image style={{height:100,width:100}} source={require('../assets/logo.png')} resizeMode="contain" />
           <Text style={{color:"#ea584f",fontSize:30}}>HomeFlavours</Text>
           <Text style={{color:"#ea584f",fontSize:18,fontStyle:"italic"}}>FOOD DELIVERY APP</Text>
         </View>

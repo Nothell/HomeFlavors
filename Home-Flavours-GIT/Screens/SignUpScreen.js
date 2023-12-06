@@ -24,8 +24,11 @@ const SignUpScreen = ({navigation}) => {
 
     const toggleSwitch = () => {
         setIsCustomer((prevState) => !prevState);
-      };
+    };
     
+    useEffect(() => {
+    }, [isCustomer]);
+
     const [formFieldData, setFormFieldData] = useState(
         {
             name:name,
@@ -87,7 +90,7 @@ const SignUpScreen = ({navigation}) => {
         <AppBackground>
         <View style={styles.container}>
             <View style={{alignItems: 'center'}}>
-                <Image style={{marginTop:40,height:100,width:100}} source={require('../assets/logo.jpg')} resizeMode="contain" />
+                <Image style={{marginTop:40,height:100,width:100}} source={require('../assets/logo.png')} resizeMode="contain" />
                 <Text style={{color:"#ea584f",fontSize:30}}>HOME FALVOURS</Text>
                 <Text style={{color:"#ea584f",fontSize:18,fontStyle:"italic"}}>FOOD DELIVERY APP</Text>
             </View>
@@ -145,29 +148,19 @@ const SignUpScreen = ({navigation}) => {
                     secureTextEntry
                 />
 
-                <View style={{flexDirection:"row",padding:10,margin:10}}>
-                {
-                isCustomer ? 
-                <View style={{flexDirection:"row"}}>
-                <Text style={{color:"#ea584f",marginHorizontal:5, fontSize:25}}>Customer</Text>
-                <Text style={{fontSize:25}}>Or</Text>
-                <Text style={{marginHorizontal:5,fontSize:25}}>Entrepreneur</Text>
-                </View>
-                 : 
-                 <View style={{flexDirection:"row"}}>
-                 <Text style={{marginHorizontal:5,fontSize:25}}>Customer</Text>
-                 <Text style={{fontSize:25}}>Or</Text>
-                 <Text style={{color:"#ea584f",marginHorizontal:5,fontSize:25}}>Entrepreneur</Text>
-                 </View>
-                 }
-                <Switch
-                    trackColor={{ false: '#767577', true: '#e1e2e3' }}
-                    thumbColor="#ea584f"
-                    ios_backgroundColor="#3e3e3e"
-                    onValueChange={toggleSwitch}
-                    value={isCustomer}
-                />
-                </View>
+<View style={{ flexDirection: "row", padding: 10, margin: 10 }}>
+    <Text style={isCustomer ? { color: "#ea584f", marginHorizontal: 5, fontSize: 25 } : { marginHorizontal: 5, fontSize: 25 }}>Customer</Text>
+    <Text style={{ fontSize: 25 }}>Or</Text>
+    <Text style={!isCustomer ? { color: "#ea584f", marginHorizontal: 5, fontSize: 25 } : { marginHorizontal: 5, fontSize: 25 }}>Entrepreneur</Text>
+    <Switch
+        trackColor={{ false: '#767577', true: '#e1e2e3' }}
+        thumbColor="#ea584f"
+        ios_backgroundColor="#3e3e3e"
+        onValueChange={toggleSwitch}
+        value={isCustomer}
+    />
+</View>
+
 
                 <View style={{flexDirection:"row",padding:10}}>
                     <Text style={{color:"#ea584f",fontSize:20,fontStyle:"italic",fontWeight:"bold"}}>We will find to you at</Text>

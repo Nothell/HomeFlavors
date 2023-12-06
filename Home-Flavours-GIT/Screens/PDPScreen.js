@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, Image, TouchableOpacity, ScrollView } from 'rea
 import { useRoute, useNavigation } from '@react-navigation/native';
 import { db, auth } from '../firebaseConfig';
 import { collection, addDoc, query, where, getDocs, updateDoc } from 'firebase/firestore';
+import AppBackground from '../Components/AppBackground';
 
 export default function PDPScreen() {
     const route = useRoute();
@@ -113,6 +114,7 @@ export default function PDPScreen() {
     };
 
     return (
+        <AppBackground>
         <ScrollView style={styles.scrollView}>
             <View style={styles.container}>
                 <Image source={{ uri: item.image }} style={styles.productImage} />
@@ -141,13 +143,13 @@ export default function PDPScreen() {
                 ) : null}
             </View>
         </ScrollView>
+        </AppBackground>
     );
 }
 
 const styles = StyleSheet.create({
     scrollView: {
         flex: 1,
-        backgroundColor: 'white',
     },
     container: {
         flex: 1,

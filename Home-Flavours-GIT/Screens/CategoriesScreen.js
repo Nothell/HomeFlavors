@@ -6,6 +6,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import DishCategoryDetailsScreen from './DishCategoryDetailsScreen';
 import { useNavigation } from '@react-navigation/native';
+import AppBackground from '../Components/AppBackground';
 const Stack = createStackNavigator();
 
 const CategoriesScreen = () => {
@@ -38,6 +39,7 @@ const CategoriesScreen = () => {
 
   return (
 
+    <AppBackground>
     <Stack.Navigator initialRouteName="Categories">
       <Stack.Screen
         name="Categories"
@@ -54,6 +56,7 @@ const CategoriesScreen = () => {
       {/* Create a DetailPage for displaying details */}
       <Stack.Screen name="DishCategoryDetailsScreen" component={DishCategoryDetailsScreen} />
     </Stack.Navigator>
+    </AppBackground>
 
   );
 };
@@ -63,7 +66,6 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'flex-start', // Align content vertically to the top
     alignItems: 'center', // Align content horizontally to the center
-    backgroundColor: 'white',
     paddingTop: 10,
   },
   text: {

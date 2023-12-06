@@ -8,6 +8,7 @@ import DishCategoryCarousel from './DishCategoryCarousel';
 import { SearchBar } from 'react-native-elements';
 import { db } from '../firebaseConfig';
 import { collection, getDocs, query,where, orderBy } from 'firebase/firestore';
+import AppBackground from './AppBackground';
 
 export default function CategoryCarousel() {
   const [items, setItems] = useState([]);
@@ -81,6 +82,7 @@ export default function CategoryCarousel() {
 };
 
   return (
+    <AppBackground>
     <View style={styles.container}>
       {/* <SearchBar
         placeholder="Search for categories..."
@@ -94,13 +96,13 @@ export default function CategoryCarousel() {
       <ItemGrid items={items} onItemClick={handleItemClick} />
       <DishDataGrid data={popularItems} onItemClick={handleItemPDPClick} />
     </View>
+    </AppBackground>
   );
 }
 
 const styles = StyleSheet.create({
     container: {
       flex: 1,
-      backgroundColor: '#F9F9F9',
       padding: 16,
     },
     searchBarContainer: {

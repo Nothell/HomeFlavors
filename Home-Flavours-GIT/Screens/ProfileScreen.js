@@ -7,6 +7,7 @@ import { ScrollView } from 'react-native-gesture-handler';
 import MapView , { Marker } from 'react-native-maps'
 import { setDoc } from 'firebase/firestore';
 import { AntDesign } from '@expo/vector-icons'; 
+import AppBackground from '../Components/AppBackground';
 
 
 const ProfileScreen = ({ navigation }) => {
@@ -118,6 +119,7 @@ const ProfileScreen = ({ navigation }) => {
     
 
   return (
+    <AppBackground>
     <View style={styles.container}>
     <ScrollView style={{marginBottom:25}}>
 
@@ -317,14 +319,13 @@ const ProfileScreen = ({ navigation }) => {
       </View>  
     </ScrollView>
     </View>
-
+    </AppBackground>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'white',
     paddingLeft: 20,
     paddingRight: 20,
   },

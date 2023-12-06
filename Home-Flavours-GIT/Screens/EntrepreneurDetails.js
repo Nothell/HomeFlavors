@@ -4,6 +4,7 @@ import { View, Text, Switch, TextInput, TouchableOpacity, Alert, StyleSheet, Scr
 import { Picker } from '@react-native-picker/picker';
 import { addDoc, updateDoc, collection, doc, getDocs } from 'firebase/firestore';
 import { db, auth } from '../Firebase/FirebaseConfig';
+import AppBackground from '../Components/AppBackground';
 
 const EntrepreneurDetails = () => {
   const [category, setCategory] = useState('');
@@ -63,6 +64,7 @@ const EntrepreneurDetails = () => {
   };
 
   return (
+    <AppBackground>
     <ScrollView contentContainerStyle={styles.container}>
       <View style={styles.innerContainer}>
         <Picker
@@ -125,6 +127,7 @@ const EntrepreneurDetails = () => {
         </TouchableOpacity>
       </View>
     </ScrollView>
+    </AppBackground>
   );
 };
 
