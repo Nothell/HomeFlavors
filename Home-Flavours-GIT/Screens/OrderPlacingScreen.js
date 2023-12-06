@@ -17,8 +17,15 @@ const OrderPlacingScreen = ({ route, navigation }) => {
 
   const handlePlaceOrder = async () => {
     try {
+
+      const userAuth = auth.currentUser;
+    if (!userAuth) {
+      // Handle the case where the user is not authenticated
+      return;
+    }
       // Create an order in the 'orders' collection
       const orderDocRef = await addDoc(collection(db, 'orders'), {
+        userId: userAuth.uid,
         shippingAddress,
         selectedShippingMethod,
         updatedTotalAmount,
@@ -51,7 +58,7 @@ const OrderPlacingScreen = ({ route, navigation }) => {
             text: 'OK',
             onPress: () => {
               // Navigate to the OrderConfirmationScreen with the order ID
-              navigation.navigate('OrderConfScreen', { orderId: orderDocRef.id });
+              navigation.navigate('OrderConfScreen', { orderId: orderDocRef.id, userAddress: shippingAddress });
             },
           },
         ],
