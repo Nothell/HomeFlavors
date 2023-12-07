@@ -1,12 +1,21 @@
 import { View, Text } from "react-native";
 import AppBackground from "../Components/AppBackground";
 import React, { useState, useEffect } from 'react';
+<<<<<<< Updated upstream
 import { ScrollView, FlatList, StyleSheet } from 'react-native';
 import { collection, query, where, getDocs } from 'firebase/firestore';
 import { db, auth } from '../Firebase/FirebaseConfig';
 
 const OrdersScreen = () => {
   const [orders, setOrders] = useState([]);
+=======
+import { View, Text, ScrollView, FlatList, StyleSheet, TouchableOpacity } from 'react-native';
+import { collection, query, where, getDocs } from 'firebase/firestore';
+import { db, auth } from '../Firebase/FirebaseConfig';
+
+const OrdersScreen = ({ navigation }) => {
+    const [orders, setOrders] = useState([]);
+>>>>>>> Stashed changes
 
   useEffect(() => {
     const fetchOrders = async () => {
@@ -20,10 +29,17 @@ const OrdersScreen = () => {
         const q = query(collection(db, 'orders'), where('userId', '==', currentUser.uid));
         const querySnapshot = await getDocs(q);
 
+<<<<<<< Updated upstream
         const ordersData = [];
         querySnapshot.forEach((doc) => {
           ordersData.push({ id: doc.id, ...doc.data() });
         });
+=======
+                const ordersData = [];
+                querySnapshot.forEach((doc) => {
+                    ordersData.push({ id: doc.id, ...doc.data() });
+                });
+>>>>>>> Stashed changes
 
         setOrders(ordersData);
       } catch (error) {
@@ -31,6 +47,7 @@ const OrdersScreen = () => {
       }
     };
 
+<<<<<<< Updated upstream
     fetchOrders();
      // Fetch orders every 10 seconds
     const intervalId = setInterval(fetchOrders, 10000);
@@ -63,6 +80,35 @@ const OrdersScreen = () => {
       {/* </ScrollView> */}
     </View>
   );
+=======
+    const navigateToOrderDetails = (order) => {
+        // Navigate to the OrderDetailsScreen with the order ID
+        navigation.navigate('OrderDetailsScreen', { order });
+    };
+
+    const renderOrderItem = ({ item }) => (
+        <TouchableOpacity
+            style={styles.productItem}
+            onPress={() => navigateToOrderDetails(item)}
+        >
+            <Text style={styles.productName}>{`Date: ${item.orderDate.toDate().toLocaleString()}`}</Text>
+            <Text style={styles.productPrice}>{`Amount: ${item.updatedTotalAmount}`}</Text>
+            <Text style={styles.productPrice}>{`Address: $${formatAddress(item.shippingAddress)}`}</Text>
+            <Text style={styles.productPrice}>{`Cart Items: ${JSON.stringify(item.cartItems[0].productName)}.......`}</Text>
+        </TouchableOpacity>
+    );
+
+    return (
+        <ScrollView style={styles.container}>
+            <Text style={styles.header}>Your Previous Orders</Text>
+            <FlatList
+                data={orders}
+                keyExtractor={(item) => item.id}
+                renderItem={renderOrderItem}
+            />
+        </ScrollView>
+    );
+>>>>>>> Stashed changes
 };
 
 const styles = StyleSheet.create({
@@ -93,4 +139,5 @@ const styles = StyleSheet.create({
     color: '#888',
   },
 });
-export default OrdersScreen
+
+export default OrdersScreen;

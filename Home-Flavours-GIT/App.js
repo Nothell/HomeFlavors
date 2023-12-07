@@ -17,6 +17,8 @@ import ShippingScreen from './Screens/ShippingScreen';
 import PaymentScreen from './Screens/PaymentScreen';
 import OrderPlacingScreen from './Screens/OrderPlacingScreen';
 import OrderConfScreen from './Screens/OrderConfScreen';
+import OrderDetailsScreen from './Screens/OrderDetailsScreen';
+
 
 
 const Stack = createStackNavigator();
@@ -51,6 +53,8 @@ export default function App() {
             <Stack.Screen name="PaymentScreen" component={PaymentScreen} options={{ headerShown: false }} />
             <Stack.Screen name="OrderPlacingScreen" component={OrderPlacingScreen} options={{ headerShown: false }} />
             <Stack.Screen name="OrderConfScreen" component={OrderConfScreen} options={{ headerShown: false }} />
+            <Stack.Screen name="OrderDetailsScreen" component={OrderDetailsScreen} options={{ headerShown: false }} />
+
           </Stack.Navigator>
         </NavigationContainer>
 
