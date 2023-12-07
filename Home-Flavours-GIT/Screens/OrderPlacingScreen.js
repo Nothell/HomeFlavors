@@ -65,6 +65,7 @@ const OrderPlacingScreen = ({ route, navigation }) => {
         cvvNumber,
         expiryDate,
         orderDate: new Date(),
+        cartItems: cartItems,
       });
 
       const user = auth.currentUser;
