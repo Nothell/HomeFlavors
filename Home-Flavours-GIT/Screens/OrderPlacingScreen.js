@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, TouchableOpacity, Alert, Image, FlatList, Scrol
 import { doc, collection, addDoc, query, where, getDocs, deleteDoc } from 'firebase/firestore';
 import { db, auth } from '../firebaseConfig';
 import { useState, useEffect } from 'react';
+import AppBackground from '../Components/AppBackground';
 
 
 const OrderPlacingScreen = ({ route, navigation }) => {
@@ -139,6 +140,7 @@ const OrderPlacingScreen = ({ route, navigation }) => {
   );
 
   return (
+    <AppBackground>
     <View style={styles.container}>
         <ScrollView
         contentContainerStyle={{ flexGrow: 1, justifyContent: 'space-between' }}
@@ -231,7 +233,7 @@ const OrderPlacingScreen = ({ route, navigation }) => {
       </TouchableOpacity>
     </ScrollView>
     </View>
-    
+    </AppBackground>
   );
 };
 
@@ -239,7 +241,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 30,
-    backgroundColor: '#f5f5f5',
     justifyContent: 'flex-end',
   },
   header: {

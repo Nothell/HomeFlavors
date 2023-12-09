@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, ScrollView, FlatList, StyleSheet } from 'react-native';
 import { collection, query, where, getDocs } from 'firebase/firestore';
 import { db, auth } from '../Firebase/FirebaseConfig';
+import AppBackground from '../Components/AppBackground';
 
 const PostingsScreen = () => {
     const [products, setProducts] = useState([]);
@@ -37,6 +38,7 @@ const PostingsScreen = () => {
     }, []);
 
     return (
+        <AppBackground>
         <ScrollView style={styles.container}>
             <Text style={styles.header}>Your Products</Text>
             <FlatList
@@ -52,13 +54,13 @@ const PostingsScreen = () => {
                 )}
             />
         </ScrollView>
+        </AppBackground>
     );
 };
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#f7f7f7',
         padding: 16,
     },
     header: {

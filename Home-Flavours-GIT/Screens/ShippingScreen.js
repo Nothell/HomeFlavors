@@ -5,6 +5,7 @@ import { db, auth } from '../firebaseConfig';
 import { doc, getDoc, updateDoc, addDoc, collection } from 'firebase/firestore';
 import HeaderComponent from '../Components/HeaderComponent';
 import { useRoute } from '@react-navigation/native';
+import AppBackground from '../Components/AppBackground';
 
 const ShippingScreen = () => {
   const navigation = useNavigation();
@@ -121,96 +122,99 @@ const ShippingScreen = () => {
   };
 
   return (
-    <View style={styles.container}>
+    <AppBackground>
+      <View style={styles.container}>
 
-    <Image
-        source={require('../assets/logo.jpg')}
-        style={{ height: 80, width: 80, marginBottom: 20 }}
-        resizeMode="contain"
-      />
-      <Text style={styles.headerText}>Shipping Details</Text>
-      <TouchableOpacity
-        style={[styles.shippingMethod, selectedShippingMethod === 'Express' && styles.highlighted]}
-        onPress={() => setSelectedShippingMethod('Express')}
-      >
-        <Text style={styles.shippingMethodText}>Express Delivery (+$20)</Text>
-      </TouchableOpacity>
+<Image
+    source={require('../assets/logo.jpg')}
+    style={{ height: 80, width: 80, marginBottom: 20 }}
+    resizeMode="contain"
+  />
+  <Text style={styles.headerText}>Shipping Details</Text>
+  <TouchableOpacity
+    style={[styles.shippingMethod, selectedShippingMethod === 'Express' && styles.highlighted]}
+    onPress={() => setSelectedShippingMethod('Express')}
+  >
+    <Text style={styles.shippingMethodText}>Express Delivery (+$20)</Text>
+  </TouchableOpacity>
 
-      <TouchableOpacity
-        style={[styles.shippingMethod, selectedShippingMethod === 'Standard' && styles.highlighted]}
-        onPress={() => setSelectedShippingMethod('Standard')}
-      >
-        <Text style={styles.shippingMethodText}>Standard Delivery (+$5)</Text>
-      </TouchableOpacity>
+  <TouchableOpacity
+    style={[styles.shippingMethod, selectedShippingMethod === 'Standard' && styles.highlighted]}
+    onPress={() => setSelectedShippingMethod('Standard')}
+  >
+    <Text style={styles.shippingMethodText}>Standard Delivery (+$5)</Text>
+  </TouchableOpacity>
 
-      <TouchableOpacity
-        style={[styles.shippingMethod, selectedShippingMethod === 'SameDay' && styles.highlighted]}
-        onPress={() => setSelectedShippingMethod('SameDay')}
-      >
-        <Text style={styles.shippingMethodText}>Same Day Delivery (+$50)</Text>
-      </TouchableOpacity>
+  <TouchableOpacity
+    style={[styles.shippingMethod, selectedShippingMethod === 'SameDay' && styles.highlighted]}
+    onPress={() => setSelectedShippingMethod('SameDay')}
+  >
+    <Text style={styles.shippingMethodText}>Same Day Delivery (+$50)</Text>
+  </TouchableOpacity>
 
-      
+  
 
-      
+  
 
-      <TextInput
-        style={styles.input}
-        placeholder="Street Name"
-        value={streetName}
-        onChangeText={(text) => setStreetName(text)}
-      />
+  <TextInput
+    style={styles.input}
+    placeholder="Street Name"
+    value={streetName}
+    onChangeText={(text) => setStreetName(text)}
+  />
 
-      <TextInput
-        style={styles.input}
-        placeholder="City"
-        value={city}
-        onChangeText={(text) => setCity(text)}
-      />
+  <TextInput
+    style={styles.input}
+    placeholder="City"
+    value={city}
+    onChangeText={(text) => setCity(text)}
+  />
 
-      <TextInput
-        style={styles.input}
-        placeholder="Pincode"
-        value={pincode}
-        onChangeText={(text) => setPincode(text)}
-        keyboardType="numeric"
-      />
+  <TextInput
+    style={styles.input}
+    placeholder="Pincode"
+    value={pincode}
+    onChangeText={(text) => setPincode(text)}
+    keyboardType="numeric"
+  />
 
-      <TextInput
-        style={styles.input}
-        placeholder="Country"
-        value={country}
-        onChangeText={(text) => setCountry(text)}
-      />
+  <TextInput
+    style={styles.input}
+    placeholder="Country"
+    value={country}
+    onChangeText={(text) => setCountry(text)}
+  />
 
-      <TextInput
-        style={styles.input}
-        placeholder="Phone Number"
-        value={phoneNo}
-        onChangeText={(text) => setPhoneNo(text)}
-        keyboardType="phone-pad"
-      />
+  <TextInput
+    style={styles.input}
+    placeholder="Phone Number"
+    value={phoneNo}
+    onChangeText={(text) => setPhoneNo(text)}
+    keyboardType="phone-pad"
+  />
 
-      <TouchableOpacity style={styles.nextButton} onPress={handleNavigateToPayment}>
-        <Text style={styles.nextButtonText}>Next: Payment</Text>
-      </TouchableOpacity>
+  <TouchableOpacity style={styles.nextButton} onPress={handleNavigateToPayment}>
+    <Text style={styles.nextButtonText}>Next: Payment</Text>
+  </TouchableOpacity>
 
-      <Modal
-        animationType="slide"
-        transparent={true}
-        visible={modalVisible}
-        onRequestClose={closeModal}
-      >
-        <View style={styles.modalContainer}>
-          <View style={styles.modalContent}>
-            <Text style={styles.modalText}>Please select a shipping method.</Text>
-            <Pressable style={styles.closeButton} onPress={closeModal}>
-              <Text style={styles.closeButtonText}>Close</Text>
-            </Pressable>
-          </View>
-        </View>
-      </Modal>
+  <Modal
+    animationType="slide"
+    transparent={true}
+    visible={modalVisible}
+    onRequestClose={closeModal}
+  >
+    <View style={styles.modalContainer}>
+      <View style={styles.modalContent}>
+        <Text style={styles.modalText}>Please select a shipping method.</Text>
+        <Pressable style={styles.closeButton} onPress={closeModal}>
+          <Text style={styles.closeButtonText}>Close</Text>
+        </Pressable>
+      </View>
     </View>
+  </Modal>
+</View>
+    </AppBackground>
+    
   );
 };
 
@@ -218,7 +222,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
-    backgroundColor: '#f5f5f5',
   },
   headerText: {
     fontSize: 24,

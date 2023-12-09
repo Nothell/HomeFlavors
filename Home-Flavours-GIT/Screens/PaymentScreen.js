@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, TouchableOpacity, Image, TextInput, LayoutAnima
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { updateDoc, doc } from 'firebase/firestore';
 import { db } from '../firebaseConfig';
+import AppBackground from '../Components/AppBackground';
 
 if (Platform.OS === 'android' && UIManager.setLayoutAnimationEnabledExperimental) {
   UIManager.setLayoutAnimationEnabledExperimental(true);
@@ -113,7 +114,8 @@ const PaymentScreen = () => {
   
 
   return (
-    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+    <AppBackground>
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <View style={styles.container}>
       <Image
         source={require('../assets/logo.png')}
@@ -164,6 +166,8 @@ const PaymentScreen = () => {
       </TouchableOpacity>
     </View>
     </TouchableWithoutFeedback>
+    </AppBackground>
+    
     
   );
 };
@@ -172,7 +176,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
-    backgroundColor: '#fff',
     alignItems: 'center',
   },
   headerText: {

@@ -6,6 +6,7 @@ import { useNavigation } from '@react-navigation/native';
 import { db, auth } from '../Firebase/FirebaseConfig';
 import { doc, getDoc } from 'firebase/firestore';
 import * as Location from 'expo-location';
+import AppBackground from '../Components/AppBackground';
 
 
 const OrderConfScreen = ({ route }) => {
@@ -150,7 +151,8 @@ const OrderConfScreen = ({ route }) => {
   };
 
   return (
-    <View style={styles.container}>
+    <AppBackground>
+       <View style={styles.container}>
       <Text style={styles.headerText}>Order Confirmed!</Text>
       <View style={styles.infoContainer}>
         <Text style={styles.infoText}>Estimated Delivery Time: {estDelivery} minutes</Text>
@@ -180,14 +182,16 @@ const OrderConfScreen = ({ route }) => {
         )}
       </MapView>
     </View>
+    </AppBackground>
+   
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    paddingTop:40,
     padding: 16,
-    backgroundColor: '#f5f5f5',
   },
   headerText: {
     fontSize: 24,

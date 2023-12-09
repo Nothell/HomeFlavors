@@ -4,6 +4,7 @@ import { collection, getDocs, query, where } from 'firebase/firestore';
 import { useRoute } from '@react-navigation/native';
 import { db } from '../firebaseConfig';
 import { useNavigation } from '@react-navigation/native';
+import AppBackground from './AppBackground';
 
 
 export default function DishCategoryCarousel({ route }) {
@@ -55,7 +56,8 @@ export default function DishCategoryCarousel({ route }) {
     );
 
     return (
-        <View style={styles.container}>
+        <AppBackground>
+            <View style={styles.container}>
             <Text style={styles.title}>{itemDta}</Text>
             <FlatList
                 data={filteredProducts}
@@ -64,6 +66,8 @@ export default function DishCategoryCarousel({ route }) {
                 numColumns={2} // Display products in 2 columns
             />
         </View>
+        </AppBackground>
+        
     );
 }
 
@@ -72,7 +76,7 @@ const styles = StyleSheet.create({
         flex: 1,
         padding: 16,
         width: '100%',
-        backgroundColor: 'white',
+
     },
     title: {
         fontSize: 24,

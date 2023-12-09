@@ -1,7 +1,9 @@
 import React from 'react';
-import { View, Text, ScrollView, StyleSheet, Image } from 'react-native';
+import { View, Text, ScrollView, StyleSheet, Image, TouchableOpacity } from 'react-native';
+import AppBackground from '../Components/AppBackground';
 
-const OrderDetailsScreen = ({ route }) => {
+
+const OrderDetailsScreen = ({ route, navigation }) => {
     const { order } = route.params;
 
     const renderCartItem = (item) => (
@@ -18,7 +20,8 @@ const OrderDetailsScreen = ({ route }) => {
     );
 
     return (
-        <ScrollView style={styles.container}>
+        <AppBackground>
+            <ScrollView style={styles.container}>
             <View style={styles.orderDetailsContainer}>
                 <View style={styles.header}>
                     <Image
@@ -64,14 +67,29 @@ const OrderDetailsScreen = ({ route }) => {
                     <Text style={styles.detailText}>{order.selectedPaymentMethod}</Text>
                 </View>
             </View>
+            <TouchableOpacity
+                style={{ backgroundColor:'#ea584f',
+                        height: 50,
+                        width: '30%',
+                        alignSelf: 'center',
+                        borderRadius: 10,
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        marginTop: 20,
+                    }}
+                onPress={() => navigation.goBack()}
+            >
+                <Text style={{ color: '#fff', fontSize: 20 }}>Go Back</Text>
+            </TouchableOpacity>
         </ScrollView>
+        </AppBackground>
+        
     );
 };
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#f7f7f7',
     },
     orderDetailsContainer: {
         backgroundColor: '#fff',

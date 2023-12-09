@@ -38,7 +38,7 @@ export default function App() {
     <View style={styles.container}>
       {isAppReady ? (
         <NavigationContainer>
-          <Stack.Navigator initialRouteName="Onboarding">
+          <Stack.Navigator initialRouteName="Onboarding" screenOptions={{ gestureEnabled: false }}>
             <Stack.Screen name="Onboarding" component={OnboardingScreen} options={{ headerShown: false }} />
             <Stack.Screen name="SignUp" component={SignUpScreen} options={{ headerShown: false }} />
             <Stack.Screen name="SignIn" component={SignInScreen} options={{ headerShown: false }} />

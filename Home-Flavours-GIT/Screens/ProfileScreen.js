@@ -210,11 +210,11 @@ const ProfileScreen = ({ navigation }) => {
       <Text style={{ fontWeight: "bold", alignSelf: "flex-start", fontSize: 20, 
       marginVertical: 10 }}>Address:</Text>
         
-      <TouchableOpacity style={{backgroundColor:"#ea584f", height:70, width:70, borderRadius:10 ,
+      {/* <TouchableOpacity style={{backgroundColor:"#ea584f", height:70, width:70, borderRadius:10 ,
       alignItems:"center"}}>
       <AntDesign name="pluscircle" size={24} color="white" />
           <Text style={{color:"white"}}>Add Address</Text>
-      </TouchableOpacity>
+      </TouchableOpacity> */}
 
       <View style={{ marginVertical:10,margin:5,borderRadius: 10, padding: 5, width: "97%", 
       backgroundColor: 'white', borderColor: 'rgba(0.3, 0.3, 0.3, 0.3)', borderWidth: 1, 
