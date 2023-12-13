@@ -31,7 +31,8 @@
           "WRITE_EXTERNAL_STORAGE"
         ]
       },
-      "package": "com.gbcgrouphf.homeflavors"
+      "package": "com.gbcgrouphf.homeflavors",
+      "versionCode":2
     },
     "web": {
       "favicon": "./assets/favicon.png"
