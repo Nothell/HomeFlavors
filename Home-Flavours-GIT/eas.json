@@ -5,6 +5,7 @@
       "android": {
         "releaseChannel": "default", 
         "gradleCommand": ":app:bundleRelease",
+        "versionCode": 2
         "env": {}
       },
       "env": {}
