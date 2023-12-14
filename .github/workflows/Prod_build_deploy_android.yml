@@ -42,7 +42,7 @@ jobs:
           
       - name: Set versionCode in app.json
         run: |
-         echo '{"expo":{"android":{"versionCode": $((GITHUB_RUN_NUMBER))}}}' > app.json
+         echo '{"expo":{"android":{"versionCode": $((2))}}}' > app.json
  
       - name: Install Expo CLI
         run: npm install -g expo-cli
